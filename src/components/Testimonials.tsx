@@ -38,27 +38,28 @@ const Testimonials: React.FC = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <GlowingCard
-              key={index}
-              className="transition-all duration-300 h-full"
-            >
-              <div className="p-8 h-full flex flex-col">
-                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${testimonial.gradient} mb-6`}>
-                  <Quote className="text-white" size={20} />
-                </div>
-                
-                <blockquote className="text-xl text-gray-300 mb-6 leading-relaxed italic flex-grow">
-                  "{testimonial.quote}"
-                </blockquote>
-                
-                <div className="flex items-center">
+            <div key={index} className="h-full">
+              <GlowingCard className="h-full">
+                <div className="p-8 h-full flex flex-col justify-between">
                   <div>
-                    <div className="font-semibold text-white">{testimonial.author}</div>
-                    <div className="text-gray-400 text-sm">{testimonial.role}</div>
+                    <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${testimonial.gradient} mb-6`}>
+                      <Quote className="text-white" size={20} />
+                    </div>
+                    
+                    <blockquote className="text-xl text-gray-300 mb-6 leading-relaxed italic">
+                      "{testimonial.quote}"
+                    </blockquote>
+                  </div>
+                  
+                  <div className="flex items-center mt-auto">
+                    <div>
+                      <div className="font-semibold text-white">{testimonial.author}</div>
+                      <div className="text-gray-400 text-sm">{testimonial.role}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </GlowingCard>
+              </GlowingCard>
+            </div>
           ))}
         </div>
       </div>

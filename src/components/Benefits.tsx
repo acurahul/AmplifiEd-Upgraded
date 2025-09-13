@@ -19,7 +19,7 @@ const Benefits: React.FC = () => {
     {
       icon: Shield,
       title: "Stay in Control",
-      description: "You approve and guide what AmplifiEd generates unlike generic AI tools, it enhances your authority.",
+      description: "You approve and guide what AmplifiEd generates — unlike generic AI tools, it enhances your authority.",
       gradient: "from-purple-500 to-pink-600"
     }
   ];
@@ -40,24 +40,25 @@ const Benefits: React.FC = () => {
           {benefits.map((benefit, index) => {
             const IconComponent = benefit.icon;
             return (
-              <GlowingCard
-                key={index}
-                className="hover:transform hover:scale-105 transition-transform duration-300"
-              >
-                <div className="p-8 h-full flex flex-col">
-                  <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${benefit.gradient} mb-6`}>
-                    <IconComponent className="text-white" size={24} />
+              <div key={index} className="h-full">
+                <GlowingCard className="h-full hover:transform hover:scale-105 transition-transform duration-300">
+                  <div className="p-8 h-full flex flex-col justify-between">
+                    <div>
+                      <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${benefit.gradient} mb-6`}>
+                        <IconComponent className="text-white" size={24} />
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-white mb-4">
+                        {benefit.title}
+                      </h3>
+                      
+                      <p className="text-gray-400 leading-relaxed">
+                        {benefit.description}
+                      </p>
+                    </div>
                   </div>
-                  
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    {benefit.title}
-                  </h3>
-                  
-                  <p className="text-gray-400 leading-relaxed flex-grow">
-                    {benefit.description}
-                  </p>
-                </div>
-              </GlowingCard>
+                </GlowingCard>
+              </div>
             );
           })}
         </div>
