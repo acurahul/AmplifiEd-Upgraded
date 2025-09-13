@@ -77,3 +77,5 @@ const HowItWorks: React.FC = () => {
     </section>
   );
 };
+
+export default HowItWorks;
