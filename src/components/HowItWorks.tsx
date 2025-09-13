@@ -45,7 +45,7 @@ const HowItWorks: React.FC = () => {
               <div key={index} className="relative text-center group">
                 {/* Connecting arrow for desktop */}
                 {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-full w-32 h-2 bg-gradient-to-r from-violet-500/50 to-teal-500/50 transform -translate-x-6">
+                <div className="hidden md:block absolute top-10 left-full w-20 h-2 bg-gradient-to-r from-violet-500/50 to-teal-500/50 transform -translate-x-6">
     <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-6 border-l-violet-500/50 border-t-3 border-b-3 border-t-transparent border-b-transparent"></div>
 </div>
 
