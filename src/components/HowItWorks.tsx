@@ -38,40 +38,39 @@ const HowItWorks: React.FC = () => {
           </p>
         </div>
 
-        <div className="relative max-w-4xl mx-auto">
-          {/* Connection lines - positioned to connect icon centers */}
-          <div className="hidden md:block absolute top-[5rem] left-0 right-0 h-0.5">
-            <div className="flex justify-between items-center h-full mx-auto px-[6.5rem]">
-              <div className="w-full h-0.5 bg-gradient-to-r from-violet-500 via-teal-500 to-purple-500"></div>
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative z-10">
-            {steps.map((step, index) => {
-              const IconComponent = step.icon;
-              return (
-                <div key={index} className="text-center group">
-                  <div className="relative mb-8 flex justify-center">
-                    <div className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r ${step.gradient} group-hover:scale-110 transition-transform duration-300`}>
-                      <IconComponent className="text-white" size={32} />
-                      {/* Step number badge */}
-                      <div className="absolute -top-2 -right-2 w-6 h-6 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center">
-                        <span className="text-violet-400 font-bold text-xs">{step.number}</span>
-                      </div>
+        <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
+          {steps.map((step, index) => {
+            const IconComponent = step.icon;
+            return (
+              <div key={index} className="relative text-center group">
+                {/* Connecting arrow for desktop */}
+                {index < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-10 left-full w-12 h-0.5 bg-gradient-to-r from-violet-500/50 to-teal-500/50 transform -translate-x-6">
+                    <div className="absolute right-0 top-1/2 transform -translate-y-1/2 w-0 h-0 border-l-4 border-l-violet-500/50 border-t-2 border-b-2 border-t-transparent border-b-transparent"></div>
+                  </div>
+                )}
+                
+                {/* Step icon with number */}
+                <div className="relative mb-8 flex justify-center">
+                  <div className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r ${step.gradient} group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                    <IconComponent className="text-white" size={32} />
+                    {/* Step number badge */}
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center shadow-lg">
+                      <span className="text-violet-400 font-bold text-sm">{step.number}</span>
                     </div>
                   </div>
-                  
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    {step.title}
-                  </h3>
-                  
-                  <p className="text-gray-400 leading-relaxed max-w-sm mx-auto">
-                    {step.description}
-                  </p>
                 </div>
-              );
-            })}
-          </div>
+                
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  {step.title}
+                </h3>
+                
+                <p className="text-gray-400 leading-relaxed max-w-sm mx-auto">
+                  {step.description}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
