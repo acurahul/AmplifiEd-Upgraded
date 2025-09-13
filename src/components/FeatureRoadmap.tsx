@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, Star, Zap, Gamepad2, Rocket } from 'lucide-react';
 
 const FeatureRoadmap: React.FC = () => {
-  const [openPriorities, setOpenPriorities] = useState<number[]>([1]);
+  const [openPriority, setOpenPriority] = useState<number | null>(1);
 
   const togglePriority = (priority: number) => {
-    if (openPriorities.includes(priority)) {
-      setOpenPriorities(openPriorities.filter(p => p !== priority));
+    if (openPriority === priority) {
+      setOpenPriority(null);
     } else {
-      setOpenPriorities([...openPriorities, priority]);
+      setOpenPriority(priority);
     }
   };
 
@@ -89,7 +89,7 @@ const FeatureRoadmap: React.FC = () => {
         <div className="space-y-6">
           {priorities.map((priority) => {
             const IconComponent = priority.icon;
-            const isOpen = openPriorities.includes(priority.number);
+            const isOpen = openPriority === priority.number;
             
             return (
               <div 

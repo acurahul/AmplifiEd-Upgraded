@@ -1,5 +1,6 @@
 import React from 'react';
 import { Quote } from 'lucide-react';
+import GlowingCard from './GlowingCard';
 
 const Testimonials: React.FC = () => {
   const testimonials = [
@@ -37,13 +38,11 @@ const Testimonials: React.FC = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
-            <div 
+            <GlowingCard
               key={index}
-              className="group relative bg-slate-900/50 backdrop-blur-sm p-8 rounded-2xl border border-slate-700/50 hover:border-violet-500/30 transition-all duration-300"
+              className="transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              <div className="relative z-10">
+              <div className="p-8">
                 <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${testimonial.gradient} mb-6`}>
                   <Quote className="text-white" size={20} />
                 </div>
@@ -59,7 +58,7 @@ const Testimonials: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </GlowingCard>
           ))}
         </div>
       </div>

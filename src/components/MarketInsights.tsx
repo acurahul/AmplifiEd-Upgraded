@@ -1,23 +1,28 @@
 import React from 'react';
 import { BarChart3, Target, TrendingUp } from 'lucide-react';
+import AnimatedCounter from './AnimatedCounter';
+import GlowingCard from './GlowingCard';
 
 const MarketInsights: React.FC = () => {
   const insights = [
     {
       icon: BarChart3,
-      stat: "10 hours",
+      number: 10,
+      suffix: " hours",
       description: "Teachers spend weekly outside class creating prep materials",
       gradient: "from-violet-500 to-purple-600"
     },
     {
       icon: Target,
-      stat: "75%",
+      number: 75,
+      suffix: "%",
       description: "of students say current tools don't meet their learning needs",
       gradient: "from-teal-500 to-cyan-600"
     },
     {
       icon: TrendingUp,
-      stat: "20–30%",
+      number: 30,
+      suffix: "%",
       description: "improvement in test performance with personalized learning",
       gradient: "from-purple-500 to-pink-600"
     }
@@ -39,19 +44,25 @@ const MarketInsights: React.FC = () => {
           {insights.map((insight, index) => {
             const IconComponent = insight.icon;
             return (
-              <div key={index} className="text-center group">
-                <div className={`inline-flex p-4 rounded-full bg-gradient-to-r ${insight.gradient} mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <IconComponent className="text-white" size={32} />
+              <GlowingCard key={index} className="text-center p-8">
+                <div className="group">
+                  <div className={`inline-flex p-4 rounded-full bg-gradient-to-r ${insight.gradient} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    <IconComponent className="text-white" size={32} />
+                  </div>
+                  
+                  <div className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${insight.gradient} bg-clip-text text-transparent`}>
+                    <AnimatedCounter 
+                      end={insight.number} 
+                      suffix={insight.suffix}
+                      duration={2500}
+                    />
+                  </div>
+                  
+                  <p className="text-gray-400 text-lg leading-relaxed max-w-sm mx-auto">
+                    {insight.description}
+                  </p>
                 </div>
-                
-                <div className={`text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r ${insight.gradient} bg-clip-text text-transparent`}>
-                  {insight.stat}
-                </div>
-                
-                <p className="text-gray-400 text-lg leading-relaxed max-w-sm mx-auto">
-                  {insight.description}
-                </p>
-              </div>
+              </GlowingCard>
             );
           })}
         </div>

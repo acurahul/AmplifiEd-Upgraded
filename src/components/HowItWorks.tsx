@@ -1,5 +1,6 @@
 import React from 'react';
 import { Upload, Cog, Users } from 'lucide-react';
+import PulsingDot from './PulsingDot';
 
 const HowItWorks: React.FC = () => {
   const steps = [
@@ -56,8 +57,9 @@ const HowItWorks: React.FC = () => {
                     <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r ${step.gradient} group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent className="text-white" size={32} />
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center">
-                      <span className="text-violet-400 font-bold text-sm">{step.number}</span>
+                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center relative">
+                      <span className="text-violet-400 font-bold text-sm relative z-10">{step.number}</span>
+                      <PulsingDot className="absolute inset-0 flex items-center justify-center" size="sm" />
                     </div>
                   </div>
                   
