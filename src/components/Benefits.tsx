@@ -19,7 +19,7 @@ const Benefits: React.FC = () => {
     {
       icon: Shield,
       title: "Stay in Control",
-      description: "You approve and guide what AmplifiEd generates\n — unlike generic AI tools, it enhances your authority.",
+      description: "You approve and guide what AmplifiEd generates unlike generic AI tools, it enhances your authority.",
       gradient: "from-purple-500 to-pink-600"
     }
   ];
