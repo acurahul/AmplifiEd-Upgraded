@@ -44,7 +44,7 @@ const Benefits: React.FC = () => {
                 key={index}
                 className="hover:transform hover:scale-105 transition-transform duration-300"
               >
-                <div className="p-8">
+                <div className="p-8 h-full flex flex-col">
                   <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${benefit.gradient} mb-6`}>
                     <IconComponent className="text-white" size={24} />
                   </div>
@@ -53,7 +53,7 @@ const Benefits: React.FC = () => {
                     {benefit.title}
                   </h3>
                   
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed flex-grow">
                     {benefit.description}
                   </p>
                 </div>

@@ -41,8 +41,8 @@ const HowItWorks: React.FC = () => {
 
         <div className="relative">
           {/* Connection lines */}
-          <div className="hidden md:block absolute top-24 left-1/2 transform -translate-x-1/2 w-full h-1">
-            <div className="flex justify-between items-center h-full max-w-4xl mx-auto px-24">
+          <div className="hidden md:block absolute top-20 left-1/2 transform -translate-x-1/2 w-full h-1">
+            <div className="flex justify-between items-center h-full max-w-5xl mx-auto px-32">
               <div className="w-1/3 h-0.5 bg-gradient-to-r from-violet-500 to-teal-500"></div>
               <div className="w-1/3 h-0.5 bg-gradient-to-r from-teal-500 to-purple-500"></div>
             </div>
@@ -57,9 +57,8 @@ const HowItWorks: React.FC = () => {
                     <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r ${step.gradient} group-hover:scale-110 transition-transform duration-300`}>
                       <IconComponent className="text-white" size={32} />
                     </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center relative">
-                      <span className="text-violet-400 font-bold text-sm relative z-10">{step.number}</span>
-                      <PulsingDot className="absolute inset-0 flex items-center justify-center" size="sm" />
+                    <div className="absolute -top-1 -right-1 w-6 h-6 bg-slate-900 border-2 border-violet-500 rounded-full flex items-center justify-center">
+                      <span className="text-violet-400 font-bold text-xs">{step.number}</span>
                     </div>
                   </div>
                   

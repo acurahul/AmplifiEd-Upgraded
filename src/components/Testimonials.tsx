@@ -40,14 +40,14 @@ const Testimonials: React.FC = () => {
           {testimonials.map((testimonial, index) => (
             <GlowingCard
               key={index}
-              className="transition-all duration-300"
+              className="transition-all duration-300 h-full"
             >
-              <div className="p-8">
+              <div className="p-8 h-full flex flex-col">
                 <div className={`inline-flex p-3 rounded-xl bg-gradient-to-r ${testimonial.gradient} mb-6`}>
                   <Quote className="text-white" size={20} />
                 </div>
                 
-                <blockquote className="text-xl text-gray-300 mb-6 leading-relaxed italic">
+                <blockquote className="text-xl text-gray-300 mb-6 leading-relaxed italic flex-grow">
                   "{testimonial.quote}"
                 </blockquote>
                 
