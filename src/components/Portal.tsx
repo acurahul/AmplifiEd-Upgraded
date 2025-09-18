@@ -77,7 +77,7 @@ const Portal: React.FC = () => {
           <div className="mt-12 p-6 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-2xl border border-violet-500/20">
             <h3 className="text-xl font-semibold text-white mb-2">Coming Soon</h3>
             <p className="text-gray-300">
-              The full AmplifiEd platform is currently in development. You'll be among the first to access all features when we launch in Q2 2025.
+              The full AmplifiEd platform is currently in development. You'll be among the first to access all features when we launch on November 22nd 2025.
             </p>
           </div>
         </div>
