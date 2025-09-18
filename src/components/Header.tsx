@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Header: React.FC = () => {
@@ -44,10 +45,16 @@ const Header: React.FC = () => {
           <div className="hidden md:block">
             <button 
               onClick={() => scrollToSection('cta')}
-              className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-violet-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:from-violet-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl mr-3"
             >
               Join Early Access
             </button>
+            <Link 
+              to="/login"
+              className="bg-slate-800 border border-slate-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200"
+            >
+              Login
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -76,6 +83,12 @@ const Header: React.FC = () => {
             >
               Join Early Access
             </button>
+            <Link 
+              to="/login"
+              className="block w-full text-left bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200 mt-2"
+            >
+              Login
+            </Link>
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowRight, Mail, Users } from 'lucide-react';
 
 const CTA: React.FC = () => {
@@ -46,6 +47,17 @@ const CTA: React.FC = () => {
         <p className="text-sm text-gray-500 mt-6">
           Expected release: Q2 2025 • Early access includes beta testing and feature input
         </p>
+        
+        <div className="mt-8 pt-6 border-t border-slate-700/50">
+          <p className="text-gray-400 mb-4">Already have an account?</p>
+          <Link 
+            to="/login"
+            className="inline-flex items-center bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-300"
+          >
+            Login to Portal
+            <ArrowRight className="ml-2" size={18} />
+          </Link>
+        </div>
       </div>
     </section>
   );
