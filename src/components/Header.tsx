@@ -62,7 +62,7 @@ const Header: React.FC = () => {
             {sessionRole && (
               <div className={`ml-4 px-3 py-1 rounded-full border text-sm font-medium ${getRoleColor(sessionRole)}`}>
                 {sessionRole.charAt(0).toUpperCase() + sessionRole.slice(1)}
-              </div>
+                className="inline-flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
             )}
           </div>
 
@@ -91,15 +91,6 @@ const Header: React.FC = () => {
 
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-lg py-1">
-                      {sessionRole && (
-                        <button
-                          onClick={handleSwitchRole}
-                          className="flex items-center w-full px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-slate-700 transition-colors md:hidden"
-                        >
-                          <RotateCcw size={16} className="mr-2" />
-                          Switch Role
-                        </button>
-                      )}
                       <button
                         onClick={handleSignOut}
                         className="flex items-center w-full px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-slate-700 transition-colors"

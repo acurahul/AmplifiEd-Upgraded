@@ -22,6 +22,15 @@ import TutorSessionPage from './pages/TutorSessionPage';
 import StudentHomePage from './pages/StudentHomePage';
 import StudentCoursePage from './pages/StudentCoursePage';
 import StudentChatPage from './pages/StudentChatPage';
+import AdminRAGPage from './pages/AdminRAGPage';
+import TutorCoursePage from './pages/TutorCoursePage';
+import TutorSessionPage from './pages/TutorSessionPage';
+import TutorQuestionBankPage from './pages/TutorQuestionBankPage';
+import TutorQuizBuilderPage from './pages/TutorQuizBuilderPage';
+import TutorPerformancePage from './pages/TutorPerformancePage';
+import StudentSessionOverviewPage from './pages/StudentSessionOverviewPage';
+import StudentSessionQuizPage from './pages/StudentSessionQuizPage';
+import StudentPerformancePage from './pages/StudentPerformancePage';
 
 function HomePage() {
   return (
@@ -66,6 +75,14 @@ function App() {
               } 
             />
             <Route 
+              path="/admin/rag" 
+              element={
+                <ProtectedRoute>
+                  <AdminRAGPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/tutor/home" 
               element={
                 <ProtectedRoute>
@@ -90,6 +107,46 @@ function App() {
               } 
             />
             <Route 
+              path="/tutor/courses/:courseId" 
+              element={
+                <ProtectedRoute>
+                  <TutorCoursePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tutor/sessions/:sessionId" 
+              element={
+                <ProtectedRoute>
+                  <TutorSessionPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tutor/question-bank" 
+              element={
+                <ProtectedRoute>
+                  <TutorQuestionBankPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tutor/quiz-builder" 
+              element={
+                <ProtectedRoute>
+                  <TutorQuizBuilderPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/tutor/performance" 
+              element={
+                <ProtectedRoute>
+                  <TutorPerformancePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
               path="/student/home" 
               element={
                 <ProtectedRoute>
@@ -102,6 +159,30 @@ function App() {
               element={
                 <ProtectedRoute>
                   <StudentCoursePage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/student/sessions/:sessionId/overview" 
+              element={
+                <ProtectedRoute>
+                  <StudentSessionOverviewPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/student/sessions/:sessionId/quiz" 
+              element={
+                <ProtectedRoute>
+                  <StudentSessionQuizPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/student/performance" 
+              element={
+                <ProtectedRoute>
+                  <StudentPerformancePage />
                 </ProtectedRoute>
               } 
             />
