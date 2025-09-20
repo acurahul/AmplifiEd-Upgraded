@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Benefits from './components/Benefits';
@@ -11,6 +12,9 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import LoginPage from './components/LoginPage';
+import Portal from './components/Portal';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function HomePage() {
   return (
@@ -33,7 +37,22 @@ function HomePage() {
 function App() {
   return (
     <div className="min-h-screen bg-slate-900">
-      <HomePage />
+      <AuthProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route 
+              path="/portal" 
+              element={
+                <ProtectedRoute>
+                  <Portal />
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Mail, Users } from 'lucide-react';
 
 const CTA: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="cta" className="py-24 bg-gradient-to-br from-slate-900 via-violet-900/20 to-slate-900 relative overflow-hidden">
       <div className="absolute inset-0">
@@ -50,6 +53,7 @@ const CTA: React.FC = () => {
         <div className="mt-8 pt-6 border-t border-slate-700/50">
           <p className="text-gray-400 mb-4">Already have an account?</p>
           <button 
+           onClick={() => navigate('/login')}
             className="inline-flex items-center bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-300"
           >
             Login to Portal
