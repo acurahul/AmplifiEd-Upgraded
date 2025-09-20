@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "message_id": "msg-conv-001-a1",
+    "chunk_id": "chunk-001-01",
+    "chunk_type": "transcript",
+    "score": 0.91,
+    "created_at": "2025-09-20T16:00:00"
+  },
+  {
+    "id": 2,
+    "message_id": "msg-conv-002-a1",
+    "chunk_id": "chunk-001-01",
+    "chunk_type": "transcript",
+    "score": 0.91,
+    "created_at": "2025-09-20T16:00:00"
+  },
+  {
+    "id": 3,
+    "message_id": "msg-conv-003-a1",
+    "chunk_id": "chunk-001-01",
+    "chunk_type": "transcript",
+    "score": 0.91,
+    "created_at": "2025-09-20T16:00:00"
+  }
+]

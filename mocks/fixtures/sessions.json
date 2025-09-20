@@ -1,0 +1,32 @@
+[
+  {
+    "session_id": "ses-chem-001",
+    "course_id": "co-chem-10-2025",
+    "title": "Chemical Reactions – Part 1",
+    "description": "Introduction to chemical reactions and their types",
+    "session_date": "2025-07-01T10:00:00Z",
+    "video_source_url": "https://drive.google.com/file/d/mock-video-001",
+    "status": "published",
+    "created_at": "2025-07-01T00:00:00Z"
+  },
+  {
+    "session_id": "ses-chem-002",
+    "course_id": "co-chem-10-2025",
+    "title": "Acids, Bases and Salts – Part 1",
+    "description": "Understanding acids, bases and their properties",
+    "session_date": "2025-07-08T10:00:00Z",
+    "video_source_url": "https://drive.google.com/file/d/mock-video-002",
+    "status": "approved",
+    "created_at": "2025-07-08T00:00:00Z"
+  },
+  {
+    "session_id": "ses-chem-003",
+    "course_id": "co-chem-10-2025",
+    "title": "Metals and Non-metals – Part 1",
+    "description": "Properties and reactions of metals and non-metals",
+    "session_date": "2025-07-15T10:00:00Z",
+    "video_source_url": "https://drive.google.com/file/d/mock-video-003",
+    "status": "draft",
+    "created_at": "2025-07-15T00:00:00Z"
+  }
+]

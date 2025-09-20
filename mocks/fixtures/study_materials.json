@@ -1,0 +1,47 @@
+[
+  {
+    "material_id": "mat-001-summary",
+    "session_id": "ses-chem-001",
+    "type": "summary",
+    "title": "Chemical Reactions Summary",
+    "content": "• Chemical reactions involve the formation of new substances\n• Four main types: combination, decomposition, displacement, double displacement\n• Combination reactions: A + B → AB\n• Decomposition reactions: AB → A + B\n• Displacement: A + BC → AC + B\n• Double displacement: AB + CD → AD + CB\n• Energy changes occur during reactions\n• Catalysts can speed up reactions",
+    "status": "published",
+    "created_at": "2025-07-01T15:00:00Z"
+  },
+  {
+    "material_id": "mat-001-flashcards",
+    "session_id": "ses-chem-001",
+    "type": "flashcards",
+    "title": "Chemical Reactions Flashcards",
+    "content": "Q: What is a chemical reaction?\nA: A process where substances interact to form new compounds with different properties.\n\nQ: Name the four types of chemical reactions.\nA: Combination, decomposition, displacement, and double displacement.\n\nQ: What is a combination reaction?\nA: A reaction where two or more substances combine to form a single product.\n\nQ: Give an example of decomposition.\nA: CaCO₃ → CaO + CO₂\n\nQ: What happens in displacement reactions?\nA: A more reactive element displaces a less reactive one from its compound.\n\nQ: What is double displacement?\nA: Two compounds exchange their ions to form two new compounds.\n\nQ: What role do catalysts play?\nA: They speed up chemical reactions without being consumed.\n\nQ: How do we represent chemical reactions?\nA: Using chemical equations with reactants on the left and products on the right.",
+    "status": "published",
+    "created_at": "2025-07-01T15:30:00Z"
+  },
+  {
+    "material_id": "mat-002-summary",
+    "session_id": "ses-chem-002",
+    "type": "summary",
+    "title": "Acids, Bases and Salts Summary",
+    "content": "• Acids release H⁺ ions in aqueous solution\n• Bases release OH⁻ ions in aqueous solution\n• pH scale ranges from 0-14\n• pH < 7 indicates acidic solution\n• pH > 7 indicates basic solution\n• pH = 7 indicates neutral solution\n• Common acids: HCl, H₂SO₄, HNO₃\n• Common bases: NaOH, KOH, Ca(OH)₂",
+    "status": "pending_review",
+    "created_at": "2025-07-08T15:00:00Z"
+  },
+  {
+    "material_id": "mat-002-flashcards",
+    "session_id": "ses-chem-002",
+    "type": "flashcards",
+    "title": "Acids and Bases Flashcards",
+    "content": "Q: What do acids release in water?\nA: Hydrogen ions (H⁺)\n\nQ: What do bases release in water?\nA: Hydroxide ions (OH⁻)\n\nQ: What is the pH of pure water?\nA: 7 (neutral)\n\nQ: What pH range indicates an acid?\nA: Less than 7\n\nQ: Name three common acids.\nA: HCl, H₂SO₄, HNO₃\n\nQ: What is an indicator?\nA: A substance that changes color in acidic or basic solutions\n\nQ: What color does litmus turn in acid?\nA: Red\n\nQ: What happens when acid and base react?\nA: They neutralize each other to form salt and water",
+    "status": "pending_review",
+    "created_at": "2025-07-08T15:30:00Z"
+  },
+  {
+    "material_id": "mat-003-summary",
+    "session_id": "ses-chem-003",
+    "type": "summary",
+    "title": "Metals and Non-metals Summary",
+    "content": "• Metals are good conductors of heat and electricity\n• Non-metals are poor conductors\n• Metals are malleable and ductile\n• Non-metals are brittle in solid state\n• Metals have metallic luster\n• Most metals form positive ions\n• Non-metals form negative ions or covalent bonds",
+    "status": "draft",
+    "created_at": "2025-07-15T15:00:00Z"
+  }
+]

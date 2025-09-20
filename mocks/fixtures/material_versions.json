@@ -1,0 +1,16 @@
+[
+  {
+    "version_id": "ver-001-summary-v1",
+    "material_id": "mat-001-summary",
+    "version_number": 1,
+    "content": "• Chemical reactions involve the formation of new substances\n• Four main types: combination, decomposition, displacement, double displacement\n• Combination reactions: A + B → AB\n• Decomposition reactions: AB → A + B\n• Displacement: A + BC → AC + B\n• Double displacement: AB + CD → AD + CB\n• Energy changes occur during reactions\n• Catalysts can speed up reactions",
+    "created_at": "2025-07-01T15:00:00Z"
+  },
+  {
+    "version_id": "ver-001-summary-v2",
+    "material_id": "mat-001-summary",
+    "version_number": 2,
+    "content": "• Chemical reactions involve the formation of new substances with different properties\n• Four main types: combination, decomposition, displacement, double displacement\n• Combination reactions: A + B → AB (synthesis)\n• Decomposition reactions: AB → A + B (analysis)\n• Displacement: A + BC → AC + B (single replacement)\n• Double displacement: AB + CD → AD + CB (double replacement)\n• Energy changes occur during reactions (exothermic/endothermic)\n• Catalysts can speed up reactions without being consumed\n• Law of conservation of mass applies to all reactions",
+    "created_at": "2025-07-01T16:00:00Z"
+  }
+]

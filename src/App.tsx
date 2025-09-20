@@ -43,9 +43,9 @@ function HomePage() {
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-900">
-      <AuthProvider>
-        <Router>
+    <AuthProvider>
+      <Router>
+        <div className="min-h-screen bg-slate-900">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -114,9 +114,9 @@ function App() {
               } 
             />
           </Routes>
-        </Router>
-      </AuthProvider>
-    </div>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 

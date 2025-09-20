@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +49,12 @@ const Header: React.FC = () => {
             >
               Join Early Access
             </button>
-            <button 
-             onClick={() => navigate('/login')}
+            <Link 
+              to="/login"
               className="bg-slate-800 border border-slate-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200"
             >
               Login
-            </button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -84,12 +83,12 @@ const Header: React.FC = () => {
             >
               Join Early Access
             </button>
-            <button 
-             onClick={() => navigate('/login')}
+            <Link 
+              to="/login"
               className="block w-full text-left bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200 mt-2"
             >
               Login
-            </button>
+            </Link>
           </div>
         </div>
       )}

@@ -1,0 +1,82 @@
+[
+  {
+    "chunk_id": "chunk-001-01",
+    "transcript_id": "trans-001",
+    "start_ms": 0,
+    "end_ms": 180000,
+    "text": "Welcome to today's chemistry class. We'll be learning about chemical reactions and their different types.",
+    "embedding_score": 0.95
+  },
+  {
+    "chunk_id": "chunk-001-02",
+    "transcript_id": "trans-001",
+    "start_ms": 180000,
+    "end_ms": 360000,
+    "text": "A chemical reaction occurs when substances interact to form new compounds with different properties.",
+    "embedding_score": 0.92
+  },
+  {
+    "chunk_id": "chunk-001-03",
+    "transcript_id": "trans-001",
+    "start_ms": 360000,
+    "end_ms": 540000,
+    "text": "There are four main types of chemical reactions: combination, decomposition, displacement, and double displacement.",
+    "embedding_score": 0.88
+  },
+  {
+    "chunk_id": "chunk-001-04",
+    "transcript_id": "trans-001",
+    "start_ms": 540000,
+    "end_ms": 720000,
+    "text": "In a combination reaction, two or more substances combine to form a single product.",
+    "embedding_score": 0.85
+  },
+  {
+    "chunk_id": "chunk-001-05",
+    "transcript_id": "trans-001",
+    "start_ms": 720000,
+    "end_ms": 900000,
+    "text": "Decomposition reactions involve breaking down a compound into simpler substances.",
+    "embedding_score": 0.83
+  },
+  {
+    "chunk_id": "chunk-001-06",
+    "transcript_id": "trans-001",
+    "start_ms": 900000,
+    "end_ms": 1080000,
+    "text": "Displacement reactions occur when a more reactive element displaces a less reactive one.",
+    "embedding_score": 0.87
+  },
+  {
+    "chunk_id": "chunk-002-01",
+    "transcript_id": "trans-002",
+    "start_ms": 0,
+    "end_ms": 165000,
+    "text": "Today we explore acids, bases and salts. Acids are substances that release hydrogen ions in water.",
+    "embedding_score": 0.94
+  },
+  {
+    "chunk_id": "chunk-002-02",
+    "transcript_id": "trans-002",
+    "start_ms": 165000,
+    "end_ms": 330000,
+    "text": "Bases are substances that release hydroxide ions. The pH scale helps us measure acidity.",
+    "embedding_score": 0.91
+  },
+  {
+    "chunk_id": "chunk-002-03",
+    "transcript_id": "trans-002",
+    "start_ms": 330000,
+    "end_ms": 495000,
+    "text": "Common acids include hydrochloric acid, sulfuric acid, and nitric acid.",
+    "embedding_score": 0.86
+  },
+  {
+    "chunk_id": "chunk-002-04",
+    "transcript_id": "trans-002",
+    "start_ms": 495000,
+    "end_ms": 660000,
+    "text": "Indicators like litmus paper help us identify acids and bases by color changes.",
+    "embedding_score": 0.89
+  }
+]

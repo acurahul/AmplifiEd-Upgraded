@@ -1,0 +1,12 @@
+[
+  {
+    "id": "qt-chem-001",
+    "session_id": "ses-chem-001",
+    "course_id": "co-chem-10-2025",
+    "title": "Chem Basics Quiz",
+    "description": "Core concepts from first sessions",
+    "status": "published",
+    "created_by": "u_tutor_rahul",
+    "created_at": "2025-09-20T16:00:00"
+  }
+]

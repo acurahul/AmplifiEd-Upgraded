@@ -1,0 +1,9 @@
+[
+  {
+    "subject_id": "sub-chem",
+    "name": "Chemistry",
+    "board": "CBSE",
+    "grade": "10",
+    "description": "Class 10 Chemistry as per CBSE curriculum"
+  }
+]

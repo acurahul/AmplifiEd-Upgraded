@@ -1,0 +1,12 @@
+[
+  {
+    "course_id": "co-chem-10-2025",
+    "tutor_id": "u_tutor_rahul",
+    "subject_id": "sub-chem",
+    "title": "Class 10 Chemistry (Full Year)",
+    "description": "CBSE Grade 10 Chemistry with weekly live classes and study materials.",
+    "academic_year": "2025-2026",
+    "is_active": true,
+    "created_at": "2025-06-22T16:00:00Z"
+  }
+]
