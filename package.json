@@ -37,8 +37,6 @@
     "vite": "^5.4.2"
   },
   "msw": {
-    "workerDirectory": [
-      "public"
-    ]
+    "workerDirectory": "public"
   }
 }
