@@ -23,6 +23,14 @@ export default function TutorCoursePage() {
             Back to Tutor Dashboard
           </button>
 
+          <button
+            onClick={() => navigate('/tutor/home')}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+            Back to Tutor Dashboard
+          </button>
+
           <Section 
             title="Class 10 Chemistry (Full Year)" 
             description="CBSE Grade 10 Chemistry with weekly live classes and study materials"

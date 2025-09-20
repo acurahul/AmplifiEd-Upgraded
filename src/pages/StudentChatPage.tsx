@@ -49,6 +49,14 @@ export default function StudentChatPage() {
       
       <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-8 flex flex-col">
         <RoleGate allowedRoles={['student']}>
+          <button
+            onClick={() => navigate('/student/courses/co-chem-10-2025')}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+            Back to Course
+          </button>
+
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-2">
               <Sparkles className="text-teal-400" size={20} />

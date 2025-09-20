@@ -46,6 +46,15 @@ export default function StudentSessionQuizPage() {
         
         <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <RoleGate allowedRoles={['student']}>
+            <div className="pt-16">
+              <button
+                onClick={() => navigate(`/student/sessions/${sessionId}/overview`)}
+                className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+              >
+                <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+                Back to Session Overview
+              </button>
+
             <Section 
               title="Quiz Results" 
               description="Chemical Reactions - Part 1"
@@ -93,6 +102,7 @@ export default function StudentSessionQuizPage() {
                 </button>
               </div>
             </Section>
+            </div>
           </RoleGate>
         </main>
       </div>
@@ -105,6 +115,16 @@ export default function StudentSessionQuizPage() {
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RoleGate allowedRoles={['student']}>
+          <div className="pt-16">
+            <button
+              onClick={() => navigate(`/student/sessions/${sessionId}/overview`)}
+              className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+            >
+              <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+              Back to Session Overview
+            </button>
+
+          <div className="pt-16">
           <Section 
             title="Quiz: Chemical Reactions - Part 1" 
             description={`Question ${currentQuestion + 1} of ${questions.length}`}
@@ -163,6 +183,8 @@ export default function StudentSessionQuizPage() {
               </div>
             </div>
           </Section>
+          </div>
+          </div>
         </RoleGate>
       </main>
     </div>
