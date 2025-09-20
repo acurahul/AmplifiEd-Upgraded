@@ -1,0 +1,407 @@
+openapi: 3.0.3
+info:
+  title: AmplifiEd API
+  description: Backend API for AmplifiEd teaching platform
+  version: 1.0.0
+servers:
+  - url: https://api.amplified.in/v1
+    description: Production server
+  - url: http://localhost:8000/v1
+    description: Development server
+
+paths:
+  /me:
+    get:
+      summary: Get current user profile
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+
+  /courses:
+    get:
+      summary: List courses
+      parameters:
+        - name: tutorId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+
+  /courses/{id}:
+    get:
+      summary: Get course by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Course details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+
+  /sessions:
+    get:
+      summary: List sessions
+      parameters:
+        - name: courseId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of sessions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Session'
+    post:
+      summary: Create new session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+      responses:
+        '201':
+          description: Created session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+
+  /sessions/{id}/transcript:
+    get:
+      summary: Get session transcript with chunks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transcript with chunks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptWithChunks'
+
+  /sessions/{id}/materials:
+    get:
+      summary: Get session study materials
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Study materials
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudyMaterial'
+
+  /materials/{id}/approve:
+    post:
+      summary: Approve study material
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Material approved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /materials/{id}/reject:
+    post:
+      summary: Reject study material
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: Material rejected
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  comment:
+                    type: string
+
+  /admin/jobs:
+    get:
+      summary: List processing jobs
+      responses:
+        '200':
+          description: List of jobs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProcessingJob'
+
+  /admin/jobs/{id}/retry:
+    post:
+      summary: Retry failed job
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Job queued for retry
+
+  /chat/ask:
+    post:
+      summary: Ask question to AI assistant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                session_id:
+                  type: string
+      responses:
+        '200':
+          description: AI response with citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+
+components:
+  schemas:
+    Profile:
+      type: object
+      properties:
+        user_id:
+          type: string
+        role:
+          type: string
+          enum: [admin, tutor, student]
+        email:
+          type: string
+        full_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    Course:
+      type: object
+      properties:
+        course_id:
+          type: string
+        tutor_id:
+          type: string
+        subject_id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        academic_year:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+
+    Session:
+      type: object
+      properties:
+        session_id:
+          type: string
+        course_id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        session_date:
+          type: string
+          format: date-time
+        video_source_url:
+          type: string
+        status:
+          type: string
+          enum: [draft, approved, published]
+        created_at:
+          type: string
+          format: date-time
+
+    CreateSessionRequest:
+      type: object
+      required:
+        - courseId
+        - title
+        - video_source_url
+      properties:
+        courseId:
+          type: string
+        title:
+          type: string
+        video_source_url:
+          type: string
+        date:
+          type: string
+          format: date-time
+
+    TranscriptWithChunks:
+      type: object
+      properties:
+        transcript:
+          $ref: '#/components/schemas/Transcript'
+        chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TranscriptChunk'
+
+    Transcript:
+      type: object
+      properties:
+        transcript_id:
+          type: string
+        session_id:
+          type: string
+        full_text:
+          type: string
+        duration_ms:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    TranscriptChunk:
+      type: object
+      properties:
+        chunk_id:
+          type: string
+        transcript_id:
+          type: string
+        start_ms:
+          type: integer
+        end_ms:
+          type: integer
+        text:
+          type: string
+        embedding_score:
+          type: number
+
+    StudyMaterial:
+      type: object
+      properties:
+        material_id:
+          type: string
+        session_id:
+          type: string
+        type:
+          type: string
+          enum: [summary, flashcards, quiz]
+        title:
+          type: string
+        content:
+          type: string
+        status:
+          type: string
+          enum: [draft, pending_review, approved, published]
+        created_at:
+          type: string
+          format: date-time
+
+    ProcessingJob:
+      type: object
+      properties:
+        job_id:
+          type: string
+        type:
+          type: string
+        session_id:
+          type: string
+        status:
+          type: string
+          enum: [queued, running, completed, failed, canceled]
+        queued_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        finished_at:
+          type: string
+          format: date-time
+        assigned_to:
+          type: string
+        last_event:
+          type: string
+
+    ChatResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+        citations:
+          type: array
+          items:
+            type: object
+            properties:
+              chunk_id:
+                type: string
+              score:
+                type: number
