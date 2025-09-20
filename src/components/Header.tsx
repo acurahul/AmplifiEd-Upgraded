@@ -62,7 +62,7 @@ const Header: React.FC = () => {
             {sessionRole && (
               <div className={`ml-4 px-3 py-1 rounded-full border text-sm font-medium ${getRoleColor(sessionRole)}`}>
                 {sessionRole.charAt(0).toUpperCase() + sessionRole.slice(1)}
-                className="inline-flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+              </div>
             )}
           </div>
 
