@@ -7,12 +7,7 @@ import { worker } from '../mocks/browser.ts';
 // Start MSW in development
 if (import.meta.env.DEV) {
   worker.start({
-    serviceWorker: {
-      url: '/mockServiceWorker.js',
-      options: {
-        scope: '/'
-      }
-    },
+    serviceWorker: '/mockServiceWorker.js',
     onUnhandledRequest: 'bypass',
   }).then(() => {
     createRoot(document.getElementById('root')!).render(
