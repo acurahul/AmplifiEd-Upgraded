@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import RoleGate from '../components/RoleGate';
 import Section from '../components/Section';
 
+import { Plus, Users, FileText } from 'lucide-react';
+
 export default function TutorHomePage() {
   const navigate = useNavigate();
 

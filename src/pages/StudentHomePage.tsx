@@ -5,6 +5,8 @@ import Header from '../components/Header';
 import RoleGate from '../components/RoleGate';
 import Section from '../components/Section';
 
+import { Target } from 'lucide-react';
+
 export default function StudentHomePage() {
   const navigate = useNavigate();
 
