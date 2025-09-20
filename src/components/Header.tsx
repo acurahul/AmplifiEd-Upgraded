@@ -69,6 +69,16 @@ const Header: React.FC = () => {
           <div className="flex items-center space-x-4">
             {user ? (
               <>
+                {sessionRole && (
+                  <button
+                    onClick={handleSwitchRole}
+                    className="inline-flex items-center px-3 py-2 text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    <RotateCcw size={16} className="mr-2" />
+                    Switch Role
+                  </button>
+                )}
+
                 <div className="relative">
                   <button
                     onClick={() => setShowUserMenu(!showUserMenu)}

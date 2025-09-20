@@ -16,11 +16,11 @@ export default function StudentPerformancePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RoleGate allowedRoles={['student']}>
           <button
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/student/home')}
             className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
           >
             <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back
+            Back to Dashboard
           </button>
 
           <Section 

@@ -51,11 +51,11 @@ export default function StudentChatPage() {
         <RoleGate allowedRoles={['student']}>
           <div className="flex items-center justify-between mb-6">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate('/student/home')}
               className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
             >
               <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-              Back
+              Back to Dashboard
             </button>
             
             <div className="flex items-center space-x-2">
@@ -63,6 +63,7 @@ export default function StudentChatPage() {
               <h1 className="text-xl font-semibold text-white">AI Study Assistant</h1>
             </div>
           </div>
+
 
           <div className="flex-1 bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 flex flex-col">
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
