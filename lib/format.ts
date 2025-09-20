@@ -1,23 +1,25 @@
-export function formatDate(date: string | Date): string {
-  return new Intl.DateTimeFormat('en-IN', {
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
-    day: 'numeric',
-  }).format(new Date(date));
+    day: 'numeric'
+  });
 }
 
-export function formatDateTime(date: string | Date): string {
-  return new Intl.DateTimeFormat('en-IN', {
+export function formatDateTime(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleString('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(date));
+    minute: '2-digit'
+  });
 }
 
-export function formatDuration(ms: number): string {
-  const seconds = Math.floor(ms / 1000);
+export function formatDuration(milliseconds: number): string {
+  const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   
