@@ -89,22 +89,6 @@ function App() {
               } 
             />
             <Route 
-              path="/tutor/course/:courseId" 
-              element={
-                <ProtectedRoute>
-                  <TutorCoursePage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
-              path="/tutor/session/:sessionId" 
-              element={
-                <ProtectedRoute>
-                  <TutorSessionPage />
-                </ProtectedRoute>
-              } 
-            />
-            <Route 
               path="/tutor/courses/:courseId" 
               element={
                 <ProtectedRoute>
@@ -153,7 +137,7 @@ function App() {
               } 
             />
             <Route 
-              path="/student/course/:courseId" 
+              path="/student/courses/:courseId" 
               element={
                 <ProtectedRoute>
                   <StudentCoursePage />
