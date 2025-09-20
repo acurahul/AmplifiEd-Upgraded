@@ -94,16 +94,6 @@ function App() {
                             </p>
                           </div>
                         </div>
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </div>
-      </Router>
-              }
-    </AuthProvider>
-  );
-}
 
                         <div className="group relative bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 hover:border-violet-500/30 transition-all duration-300 transform hover:scale-105 cursor-pointer">
                           <div className="text-center">
@@ -125,4 +115,12 @@ function App() {
                       </div>
                     </div>
                   </div>
-export default App;
+                </ProtectedRoute>
+              } 
+            />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+}
