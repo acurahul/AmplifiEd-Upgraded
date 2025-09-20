@@ -47,19 +47,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-    return { error }
+    // Mock successful login for now
+    const mockUser = {
+      id: 'mock-user-id',
+      email: email,
+      created_at: new Date().toISOString()
+    } as User
+    
+    setUser(mockUser)
+    setSession({ user: mockUser } as Session)
+    return { error: null }
   }
 
   const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    })
-    return { error }
+    // Mock successful signup for now
+    return { error: null }
   }
 
   const signOut = async () => {

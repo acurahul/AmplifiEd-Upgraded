@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, GraduationCap, BookOpen } from 'lucide-react';
-import { setSessionRole, type SessionRole } from '../../lib/role';
-import PortalHeader from '../components/PortalHeader';
+import { setSessionRole, type SessionRole } from '../lib/role';
+import Header from '../components/Header';
 
 export default function PortalPage() {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export default function PortalPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      <PortalHeader />
+      <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-16">
