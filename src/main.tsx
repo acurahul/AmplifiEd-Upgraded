@@ -6,13 +6,14 @@ import './index.css';
 async function enableMocking() {
   if (import.meta.env.DEV) {
     const { worker } = await import('../mocks/browser');
+    
+    // Start the worker with minimal configuration
     return worker.start({
-      serviceWorker: {
-        url: '/mockServiceWorker.js'
-      }
+      onUnhandledRequest: 'bypass',
     });
   }
 }
+
 enableMocking().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
