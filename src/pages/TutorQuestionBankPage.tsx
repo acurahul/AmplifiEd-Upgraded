@@ -19,6 +19,13 @@ export default function TutorQuestionBankPage() {
             className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
           >
             <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+            Back to Tutor Dashboard
+          </button>
+          <button
+            onClick={() => navigate('/tutor/home')}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
             Back to Dashboard
           </button>
 

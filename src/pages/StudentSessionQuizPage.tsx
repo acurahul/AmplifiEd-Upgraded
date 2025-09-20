@@ -106,11 +106,11 @@ export default function StudentSessionQuizPage() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RoleGate allowedRoles={['student']}>
           <button
-            onClick={() => navigate('/student/home')}
+            onClick={() => navigate('/student/sessions/ses-chem-001/overview')}
             className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
           >
             <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Dashboard
+            Back to Session Overview
           </button>
 
           <Section 

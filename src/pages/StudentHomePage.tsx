@@ -23,6 +23,13 @@ export default function StudentHomePage() {
             <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
             Back to Role Selection
           </button>
+          <button
+            onClick={() => navigate('/portal')}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+            Back to Role Selection
+          </button>
 
           <Section 
             title="Student Dashboard" 
