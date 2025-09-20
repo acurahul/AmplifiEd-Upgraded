@@ -1,0 +1,44 @@
+[
+  {
+    "topic_id": "topic-chem-reactions",
+    "subject_id": "sub-chem",
+    "name": "Chemical Reactions",
+    "parent_id": null,
+    "order": 1
+  },
+  {
+    "topic_id": "topic-reaction-types",
+    "subject_id": "sub-chem",
+    "name": "Types of Reactions",
+    "parent_id": "topic-chem-reactions",
+    "order": 1
+  },
+  {
+    "topic_id": "topic-acids-bases",
+    "subject_id": "sub-chem",
+    "name": "Acids, Bases and Salts",
+    "parent_id": null,
+    "order": 2
+  },
+  {
+    "topic_id": "topic-indicators",
+    "subject_id": "sub-chem",
+    "name": "Indicators & pH",
+    "parent_id": "topic-acids-bases",
+    "order": 1
+  },
+  {
+    "topic_id": "topic-metals",
+    "subject_id": "sub-chem",
+    "name": "Metals and Non-metals",
+    "parent_id": null,
+    "order": 3
+  },
+  {
+    "topic_id": "topic-carbon",
+    "subject_id": "sub-chem",
+    "name": "Carbon Compounds",
+    "parent_id": null,
+    "order": 4
+  }
+]
