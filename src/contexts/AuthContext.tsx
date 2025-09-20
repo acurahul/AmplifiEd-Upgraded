@@ -41,11 +41,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
-      
-      // Redirect to portal on successful sign in
-      if (event === 'SIGNED_IN' && session?.user) {
-        window.location.href = '/portal'
-      }
     })
 
     return () => subscription.unsubscribe()
