@@ -13,8 +13,16 @@ export default function TutorPerformancePage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-8">
         <RoleGate allowedRoles={['tutor']}>
+          <button
+            onClick={() => navigate('/tutor/home')}
+            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
+          >
+            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+            Back to Tutor Dashboard
+          </button>
+
           <button
             onClick={() => navigate('/tutor/home')}
             className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"

@@ -47,7 +47,7 @@ export default function StudentChatPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex flex-col">
       <Header />
       
-      <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+      <main className="flex-1 max-w-4xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-24 pb-8 flex flex-col">
         <RoleGate allowedRoles={['student']}>
           <div className="flex items-center justify-between mb-6">
             <button
