@@ -23,8 +23,6 @@ import StudentHomePage from './pages/StudentHomePage';
 import StudentCoursePage from './pages/StudentCoursePage';
 import StudentChatPage from './pages/StudentChatPage';
 import AdminRAGPage from './pages/AdminRAGPage';
-import TutorCoursePage from './pages/TutorCoursePage';
-import TutorSessionPage from './pages/TutorSessionPage';
 import TutorQuestionBankPage from './pages/TutorQuestionBankPage';
 import TutorQuizBuilderPage from './pages/TutorQuizBuilderPage';
 import TutorPerformancePage from './pages/TutorPerformancePage';
