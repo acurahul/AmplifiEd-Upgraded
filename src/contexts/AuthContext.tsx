@@ -37,10 +37,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
+      
+      // Redirect to portal on successful sign in
+      if (event === 'SIGNED_IN' && session?.user) {
+        window.location.href = '/portal'
+      }
     })
 
     return () => subscription.unsubscribe()
