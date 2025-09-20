@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw';
 import profiles from './fixtures/profiles.json';
 import subjects from './fixtures/subjects.json';
 import topics from './fixtures/topics.json';
+import courses from './fixtures/courses.json';
 import enrollments from './fixtures/enrollments.json';
 import sessions from './fixtures/sessions.json';
 import sessionFiles from './fixtures/session_files.json';
@@ -29,20 +30,6 @@ import notifications from './fixtures/notifications.json';
 import processingJobs from './fixtures/processing_jobs.json';
 import jobEvents from './fixtures/job_events.json';
 import guardianships from './fixtures/guardianships.json';
-
-// Fix courses import - use the correct structure
-const courses = [
-  {
-    course_id: "co-chem-10-2025",
-    tutor_id: "u_tutor_rahul",
-    subject_id: "sub-chem",
-    title: "Class 10 Chemistry (Full Year)",
-    description: "CBSE Grade 10 Chemistry with weekly live classes and study materials.",
-    academic_year: "2025-2026",
-    is_active: true,
-    created_at: "2025-06-22T16:00:00Z"
-  }
-];
 
 // Mock current user - in real app this would come from auth
 const getCurrentUser = () => profiles.find(p => p.user_id === 'u_tutor_rahul');

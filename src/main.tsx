@@ -7,7 +7,6 @@ async function enableMocking() {
   if (import.meta.env.DEV) {
     const { worker } = await import('../mocks/browser');
     
-    // Start the worker with minimal configuration
     return worker.start({
       onUnhandledRequest: 'bypass',
     });
