@@ -1,0 +1,50 @@
+[
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-001",
+    "points": 1,
+    "position": 1
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-002",
+    "points": 1,
+    "position": 2
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-003",
+    "points": 1,
+    "position": 3
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-004",
+    "points": 1,
+    "position": 4
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-005",
+    "points": 1,
+    "position": 5
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-006",
+    "points": 1,
+    "position": 6
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-007",
+    "points": 1,
+    "position": 7
+  },
+  {
+    "quiz_id": "qt-chem-001",
+    "question_id": "q-chem-008",
+    "points": 1,
+    "position": 8
+  }
+]
