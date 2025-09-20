@@ -8,7 +8,10 @@ import { worker } from '../mocks/browser.ts';
 if (import.meta.env.DEV) {
   worker.start({
     serviceWorker: {
-      url: '/mockServiceWorker.js'
+      url: '/mockServiceWorker.js',
+      options: {
+        scope: '/'
+      }
     },
     onUnhandledRequest: 'bypass',
   }).then(() => {
