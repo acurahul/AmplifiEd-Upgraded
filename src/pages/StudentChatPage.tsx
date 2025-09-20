@@ -51,11 +51,11 @@ export default function StudentChatPage() {
         <RoleGate allowedRoles={['student']}>
           <div className="flex items-center justify-between mb-6">
             <button
-              onClick={() => navigate('/student/home')}
+              onClick={() => navigate(-1)}
               className="inline-flex items-center text-gray-400 hover:text-white transition-colors group"
             >
               <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-              Back to Dashboard
+              Back
             </button>
             
             <div className="flex items-center space-x-2">

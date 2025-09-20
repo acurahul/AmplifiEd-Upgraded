@@ -22,11 +22,11 @@ export default function StudentCoursePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RoleGate allowedRoles={['student']}>
           <button
-            onClick={() => navigate('/student/home')}
+            onClick={() => navigate(-1)}
             className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
           >
             <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Dashboard
+            Back
           </button>
 
           <Section 
