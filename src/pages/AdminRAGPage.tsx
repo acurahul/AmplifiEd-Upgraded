@@ -23,21 +23,6 @@ export default function AdminRAGPage() {
             Back to Admin Dashboard
           </button>
 
-          <button
-            onClick={() => navigate('/admin/queue')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Admin Dashboard
-          </button>
-          <button
-            onClick={() => navigate('/admin/queue')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Dashboard
-          </button>
-
           <Section 
             title="RAG System Health" 
             description="Monitor retrieval-augmented generation system status"

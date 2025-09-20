@@ -23,21 +23,6 @@ export default function StudentPerformancePage() {
             Back to Student Dashboard
           </button>
 
-          <button
-            onClick={() => navigate('/student/home')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Student Dashboard
-          </button>
-          <button
-            onClick={() => navigate('/student/home')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Dashboard
-          </button>
-
           <Section 
             title="My Performance" 
             description="Track your learning progress and achievements"

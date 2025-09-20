@@ -23,21 +23,6 @@ export default function StudentSessionOverviewPage() {
             Back to Course
           </button>
 
-          <button
-            onClick={() => navigate('/student/courses/co-chem-10-2025')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Course
-          </button>
-          <button
-            onClick={() => navigate('/student/home')}
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-6 group"
-          >
-            <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
-            Back to Dashboard
-          </button>
-
           <Section 
             title="Chemical Reactions - Part 1" 
             description="Session overview and study materials"
