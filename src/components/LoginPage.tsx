@@ -17,6 +17,12 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!email || !password) {
+      setError('Please enter both email and password')
+      return
+    }
+    
     setLoading(true)
     setError('')
     setMessage('')
@@ -27,12 +33,13 @@ const LoginPage: React.FC = () => {
         if (error) {
           setError(error.message)
         } else {
-          setMessage('Check your email for the confirmation link!')
+          setMessage('Account created successfully! You can now sign in.')
+          setIsSignUp(false)
         }
       } else {
         const { error } = await signIn(email, password)
         if (error) {
-          setError(error.message)
+          setError('Invalid email or password. Please try again.')
         } else {
           navigate('/portal')
         }
@@ -71,6 +78,16 @@ const LoginPage: React.FC = () => {
             <p className="text-gray-400">
               {isSignUp ? 'Join AmplifiEd to transform your teaching' : 'Sign in to access your AmplifiEd portal'}
             </p>
+            {!isSignUp && (
+              <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                <p className="text-sm text-gray-300 mb-2">Demo Credentials:</p>
+                <div className="text-xs text-gray-400 space-y-1">
+                  <div>Admin: admin@amplified.in / admin123</div>
+                  <div>Tutor: tutor@amplified.in / tutor123</div>
+                  <div>Student: student@amplified.in / student123</div>
+                </div>
+              </div>
+            )}
           </div>
 
           {error && (
