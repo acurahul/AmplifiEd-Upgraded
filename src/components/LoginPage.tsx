@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
       } else {
         const { error } = await signIn(email, password)
         if (error) {
-          setError('Invalid email or password. Please try again.')
+          setError(error.message || 'Invalid email or password. Please try again.')
         } else {
           navigate('/portal')
         }
@@ -80,12 +80,10 @@ const LoginPage: React.FC = () => {
             </p>
             {!isSignUp && (
               <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
-                <p className="text-sm text-gray-300 mb-2">Demo Credentials:</p>
-                <div className="text-xs text-gray-400 space-y-1">
-                  <div>Admin: admin@amplified.in / admin123</div>
-                  <div>Tutor: tutor@amplified.in / tutor123</div>
-                  <div>Student: student@amplified.in / student123</div>
-                </div>
+                <p className="text-sm text-gray-300 mb-2">Sign in with your Supabase account</p>
+                <p className="text-xs text-gray-400">
+                  Create an account if you don't have one, or use the sign up form below.
+                </p>
               </div>
             )}
           </div>
