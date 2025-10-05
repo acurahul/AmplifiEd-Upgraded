@@ -1,7 +1,11 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+// src/components/RoleGate.tsx
+
+'use client';
+
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation'; // Use Next.js navigation
 import { useAuth } from '../contexts/AuthContext';
-import { getSessionRole, type SessionRole } from '../../lib/role';
+import { getSessionRole, type SessionRole } from '../lib/role'; // Corrected path
 
 interface RoleGateProps {
   allowedRoles: SessionRole[];
@@ -10,8 +14,24 @@ interface RoleGateProps {
 
 const RoleGate: React.FC<RoleGateProps> = ({ allowedRoles, children }) => {
   const { user, loading } = useAuth();
+  const router = useRouter(); // Use Next.js router
   const sessionRole = getSessionRole();
 
+  useEffect(() => {
+    // Wait until loading is done before making any decisions
+    if (loading) {
+      return;
+    }
+
+    // Redirect logic
+    if (!user) {
+      router.push('/login');
+    } else if (!sessionRole || !allowedRoles.includes(sessionRole)) {
+      router.push('/portal');
+    }
+  }, [user, loading, sessionRole, allowedRoles, router]);
+
+  // Show a loading spinner while checking auth state
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
@@ -20,19 +40,13 @@ const RoleGate: React.FC<RoleGateProps> = ({ allowedRoles, children }) => {
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
+  // Only render children if the user is authenticated and has the correct role.
+  // Otherwise, render null while the redirect happens.
+  if (user && sessionRole && allowedRoles.includes(sessionRole)) {
+    return <>{children}</>;
   }
 
-  if (!sessionRole) {
-    return <Navigate to="/portal" replace />;
-  }
-
-  if (!allowedRoles.includes(sessionRole)) {
-    return <Navigate to="/portal" replace />;
-  }
-
-  return <>{children}</>;
+  return null;
 };
 
 export default RoleGate;

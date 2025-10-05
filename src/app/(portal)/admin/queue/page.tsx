@@ -1,7 +1,9 @@
 'use client';
 
+import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
-import { Play, Square, RotateCcw } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Play, Square, RotateCcw, Database } from 'lucide-react';
 import Header from '@/components/Header';
 import RoleGate from '@/components/RoleGate';
 import Section from '@/components/Section';
@@ -34,6 +36,8 @@ export default function AdminQueuePage() {
   const [selectedJob, setSelectedJob] = useState<ProcessingJob | null>(null);
   const [jobEvents, setJobEvents] = useState<JobEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
 
   useEffect(() => {
     fetchJobs();
@@ -47,27 +51,53 @@ export default function AdminQueuePage() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch('/api/admin/jobs');
-      const data = await response.json();
-      setJobs(data);
-      if (data.length > 0 && !selectedJob) {
-        setSelectedJob(data[0]);
-      }
-    } catch (error) {
-      console.error('Failed to fetch jobs:', error);
-    } finally {
-      setLoading(false);
-    }
+   const { data, error } = await supabase
+     .from('processing_jobs')
+     .select('*')
+     .order('queued_at', { ascending: false }); // Show newest jobs first
+
+   if (error) throw error;
+   
+   // Map the data to match the component's expected structure
+   const formattedData = data.map(job => ({
+       ...job,
+       job_id: job.id,
+       type: job.job,
+       last_event: 'N/A' // This is a placeholder as it's not in the jobs table
+   }));
+
+   setJobs(formattedData);
+   if (formattedData.length > 0 && !selectedJob) {
+     setSelectedJob(formattedData[0]);
+   }
+ } catch (error) {
+   console.error('Failed to fetch jobs:', error);
+ } finally {
+   setLoading(false);
+ }
   };
 
   const fetchJobEvents = async (jobId: string) => {
     try {
-      const response = await fetch(`/api/admin/jobs/${jobId}/events`);
-      const data = await response.json();
-      setJobEvents(data);
-    } catch (error) {
-      console.error('Failed to fetch job events:', error);
-    }
+   const { data, error } = await supabase
+     .from('job_events')
+     .select('*')
+     .eq('job_id', jobId)
+     .order('created_at', { ascending: true }); // Show events in order
+
+   if (error) throw error;
+   
+   // The component expects 'event_id' and 'event_type'. Let's ensure the mapping.
+   const formattedEvents = data.map(event => ({
+       ...event,
+       event_id: event.id,
+       event_type: event.status // Assuming 'status' in job_events maps to 'event_type'
+   }));
+
+   setJobEvents(formattedEvents || []);
+ } catch (error) {
+   console.error('Failed to fetch job events:', error);
+ }
   };
 
   const handleRetry = async (jobId: string) => {
@@ -201,6 +231,17 @@ export default function AdminQueuePage() {
             title="Processing Queue" 
             description="Monitor and manage background processing jobs"
           >
+            {/* --- ADD THIS BLOCK --- */}
+  <div className="flex flex-wrap gap-4 mb-8">
+    <button 
+      onClick={() => router.push('/admin/rag')}
+      className="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center"
+    >
+      <Database size={20} className="mr-2" />
+      RAG Health
+    </button>
+  </div>
+  {/* --- END BLOCK --- */}
             {/* Status Summary */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <StatCard

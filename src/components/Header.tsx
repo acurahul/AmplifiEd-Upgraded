@@ -1,5 +1,11 @@
+// src/components/Header.tsx
+
+'use client'; // Add this directive because this is an interactive component
+
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// STEP 1: Replace react-router-dom imports with Next.js imports
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Menu, X, User, ChevronDown, LogOut, RotateCcw } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { getSessionRole, clearSessionRole, type SessionRole } from '../lib/role';
@@ -10,7 +16,8 @@ const Header: React.FC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [sessionRole, setSessionRole] = useState<SessionRole | null>(null);
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  // STEP 2: Replace useNavigate with useRouter
+  const router = useRouter();
 
   useEffect(() => {
     setSessionRole(getSessionRole());
@@ -34,13 +41,15 @@ const Header: React.FC = () => {
 
   const handleSwitchRole = () => {
     clearSessionRole();
-    navigate('/portal');
+    // Use the new router object
+    router.push('/portal');
   };
 
   const handleSignOut = async () => {
     await signOut();
     clearSessionRole();
-    navigate('/');
+    // Use the new router object
+    router.push('/');
   };
 
   const getRoleColor = (role: SessionRole) => {
@@ -58,7 +67,8 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
-            <Link to="/" className="text-2xl font-bold text-white">AmplifiEd</Link>
+            {/* STEP 3: Replace 'to' with 'href' in Link components */}
+            <Link href="/" className="text-2xl font-bold text-white">AmplifiEd</Link>
             {sessionRole && (
               <div className={`px-3 py-1 rounded-full border text-sm font-medium ${getRoleColor(sessionRole)}`}>
                 {sessionRole.charAt(0).toUpperCase() + sessionRole.slice(1)}
@@ -131,7 +141,7 @@ const Header: React.FC = () => {
                     Join Early Access
                   </button>
                   <Link 
-                    to="/login"
+                    href="/login" // <-- Replaced 'to' with 'href'
                     className="bg-slate-800 border border-slate-700 text-white px-6 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200"
                   >
                     Login
@@ -170,7 +180,7 @@ const Header: React.FC = () => {
               Join Early Access
             </button>
             <Link 
-              to="/login"
+              href="/login" // <-- Replaced 'to' with 'href'
               className="block w-full text-left bg-slate-800 border border-slate-700 text-white px-3 py-2 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-200 mt-2"
             >
               Login

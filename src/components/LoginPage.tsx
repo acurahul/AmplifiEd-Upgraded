@@ -1,55 +1,63 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import { ArrowLeft, Mail, Lock, Eye, EyeOff } from 'lucide-react'
+// src/components/LoginPage.tsx
+
+'use client';
+
+import React, { useState } from 'react';
+import Link from 'next/link';                 // Use Next.js link for the component
+import { useRouter } from 'next/navigation'; // Use Next.js navigation
+
+import { useAuth } from '../contexts/AuthContext';
+import { ArrowLeft, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isSignUp, setIsSignUp] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-  const [message, setMessage] = useState('')
-  
-  const { signIn, signUp } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  const { signIn, signUp } = useAuth();
+  const router = useRouter(); // Use Next.js router
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+    e.preventDefault();
+
     if (!email || !password) {
-      setError('Please enter both email and password')
-      return
+      setError('Please enter both email and password');
+      return;
     }
-    
-    setLoading(true)
-    setError('')
-    setMessage('')
+
+    setLoading(true);
+    setError('');
+    setMessage('');
 
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password)
+        const { error } = await signUp(email, password);
         if (error) {
-          setError(error.message)
+          setError(error.message);
         } else {
-          setMessage('Account created successfully! You can now sign in.')
-          setIsSignUp(false)
+          setMessage('Account created successfully! You can now sign in.');
+          setIsSignUp(false);
         }
       } else {
-        const { error } = await signIn(email, password)
+        const { error } = await signIn(email, password);
         if (error) {
-          setError(error.message || 'Invalid email or password. Please try again.')
+          setError(
+            error.message || 'Invalid email or password. Please try again.'
+          );
         } else {
-          navigate('/portal')
+          router.push('/portal'); // Use router.push for navigation
         }
       }
     } catch (err) {
-      setError('An unexpected error occurred')
+      setError('An unexpected error occurred');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center px-4">
@@ -61,15 +69,17 @@ const LoginPage: React.FC = () => {
 
       <div className="relative z-10 w-full max-w-md">
         {/* Back to home link */}
-        <Link 
-          to="/" 
+        <Link
+          href="/" // Use href instead of to
           className="inline-flex items-center text-gray-400 hover:text-white transition-colors mb-8 group"
         >
-          <ArrowLeft className="mr-2 group-hover:-translate-x-1 transition-transform" size={20} />
+          <ArrowLeft
+            className="mr-2 group-hover:-translate-x-1 transition-transform"
+            size={20}
+          />
           Back to Home
         </Link>
-
-        {/* Login form */}
+        {/* ... rest of the JSX is identical ... */}
         <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-8 shadow-2xl">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent mb-2">
@@ -164,7 +174,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;
