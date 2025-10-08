@@ -26,6 +26,7 @@ export default function TutorHomePage() {
   const [showAddSession, setShowAddSession] = useState(false);
   const [sessionForm, setSessionForm] = useState({
     title: '',
+    description: '',
     video_source_url: '',
     date: ''
   });
@@ -74,6 +75,7 @@ export default function TutorHomePage() {
         .insert({
           course_id: courseId, // Use the valid UUID
           title: sessionForm.title,
+          description: sessionForm.description,
           session_date: sessionForm.date || new Date(),
           video_source_url: sessionForm.video_source_url,
           status: 'draft'
@@ -101,7 +103,7 @@ export default function TutorHomePage() {
 
       alert('Success! Session created and transcription job has been queued.');
       setShowAddSession(false);
-      setSessionForm({ title: '', video_source_url: '', date: '' });
+      setSessionForm({ title: '', description: '', video_source_url: '', date: '' });
 
     } catch (error) {
       console.error('Error queuing transcription job:', error);
@@ -161,6 +163,10 @@ export default function TutorHomePage() {
                   <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">Session Title</label>
                       <input type="text" value={sessionForm.title} onChange={(e) => setSessionForm({...sessionForm, title: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" required />
+                  </div>
+                  <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Description (Optional)</label>
+                      <textarea value={sessionForm.description} onChange={(e) => setSessionForm({...sessionForm, description: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" rows={3} placeholder="Brief description of the session content..." />
                   </div>
                   <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">Video Source URL</label>

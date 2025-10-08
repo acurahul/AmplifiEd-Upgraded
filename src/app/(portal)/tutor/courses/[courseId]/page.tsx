@@ -2,16 +2,18 @@
 
 'use client';
 
-import React from 'react';
-import { ArrowLeft, Users, Play, FileText, Calendar } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, Users, Play, FileText, Calendar, Plus } from 'lucide-react';
 import { useRouter, useParams } from 'next/navigation'; // <-- Use Next.js hooks
 import Header from '@/components/Header';
 import RoleGate from '@/components/RoleGate';
 import Section from '@/components/Section';
+import EnrollmentManager from '@/components/EnrollmentManager';
 
 export default function TutorCoursePage() {
   const router = useRouter(); // <-- Use Next.js router
   const params = useParams(); // <-- Use Next.js params
+  const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
 
   if (!params) {
     return <div>Loading...</div>;
@@ -36,6 +38,41 @@ export default function TutorCoursePage() {
             title="Class 10 Chemistry (Full Year)" 
             description="CBSE Grade 10 Chemistry with weekly live classes and study materials"
           >
+            {/* Quick Actions */}
+            <div className="flex flex-wrap gap-4 mb-8">
+              <button
+                onClick={() => setShowEnrollmentForm(true)}
+                className="bg-gradient-to-r from-violet-500 to-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-violet-600 hover:to-purple-700 transition-all duration-300 flex items-center"
+              >
+                <Users size={20} className="mr-2" />
+                Manage Students
+              </button>
+              
+              <button
+                onClick={() => router.push('/tutor/home')}
+                className="bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-300 flex items-center"
+              >
+                <Plus size={20} className="mr-2" />
+                Add New Session
+              </button>
+            </div>
+
+            {/* Enrollment Manager */}
+            {showEnrollmentForm && (
+              <div className="mb-8">
+                <EnrollmentManager
+                  courseId={courseId}
+                  courseTitle="Class 10 Chemistry (Full Year)"
+                  tutorName="Tutor Name"
+                  onEnrollmentSuccess={() => {
+                    setShowEnrollmentForm(false);
+                    // You could add a refresh here if needed
+                  }}
+                  onCancel={() => setShowEnrollmentForm(false)}
+                />
+              </div>
+            )}
+
             <div className="grid lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2">
                 <h3 className="text-xl font-semibold text-white mb-4">Course Sessions</h3>
