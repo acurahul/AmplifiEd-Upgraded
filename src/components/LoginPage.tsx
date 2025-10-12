@@ -35,7 +35,7 @@ const LoginPage: React.FC = () => {
 
     try {
       if (isSignUp) {
-        const { error } = await signUp(email, password);
+        const { data, error } = await signUp(email, password);
         if (error) {
           setError(error.message);
         } else {
@@ -43,13 +43,20 @@ const LoginPage: React.FC = () => {
           setIsSignUp(false);
         }
       } else {
-        const { error } = await signIn(email, password);
+        const { data, error } = await signIn(email, password);
         if (error) {
           setError(
             error.message || 'Invalid email or password. Please try again.'
           );
+        } else if (data.user) {
+          // Login successful - show success message briefly before navigation
+          setMessage('Login successful! Redirecting...');
+          // Small delay to show success message, then navigate
+          setTimeout(() => {
+            router.push('/portal');
+          }, 1000);
         } else {
-          router.push('/portal'); // Use router.push for navigation
+          setError('Login failed. Please try again.');
         }
       }
     } catch (err) {

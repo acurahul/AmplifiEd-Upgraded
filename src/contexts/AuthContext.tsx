@@ -7,8 +7,8 @@ interface AuthContextType {
   user: User | null
   session: Session | null
   loading: boolean
-  signIn: (email: string, password: string) => Promise<{ error: any }>
-  signUp: (email: string, password: string) => Promise<{ error: any }>
+  signIn: (email: string, password: string) => Promise<{ data: any, error: any }>
+  signUp: (email: string, password: string) => Promise<{ data: any, error: any }>
   signOut: () => Promise<void>
 }
 
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       password,
     })
-    return { error }
+    return { data, error }
   }
 
   const signUp = async (email: string, password: string) => {
@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       email,
       password,
     })
-    return { error }
+    return { data, error }
   }
 
   const signOut = async () => {

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Users, Plus, BookOpen, FileText, Target } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from '../components/Header';
-import RoleGate from '../components/RoleGate';
-import Section from '../components/Section';
-import EnrollmentManager from '../components/EnrollmentManager';
+import Header from '../../components/Header';
+import RoleGate from '../../components/RoleGate';
+import Section from '../../components/Section';
+import EnrollmentManager from '../../components/EnrollmentManager';
+import SessionCreationModal from '../../components/SessionCreationModal';
 import { supabase } from '../../lib/supabase';
 
 interface Course {
@@ -14,6 +15,12 @@ interface Course {
   tutor_id: string;
   academic_year: string;
   is_active: boolean;
+}
+
+interface CourseForModal {
+  course_id: string;
+  title: string;
+  description: string;
 }
 
 interface Enrollment {
@@ -43,6 +50,8 @@ export default function TutorCoursePage() {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  const [showAddSession, setShowAddSession] = useState(false);
+  const [allCourses, setAllCourses] = useState<CourseForModal[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -62,6 +71,15 @@ export default function TutorCoursePage() {
 
       if (courseError) throw courseError;
       setCourse(courseData);
+
+      // Load all courses for the modal (assuming same tutor)
+      const { data: allCoursesData, error: allCoursesError } = await supabase
+        .from('courses')
+        .select('course_id, title, description')
+        .eq('tutor_id', courseData.tutor_id);
+
+      if (allCoursesError) throw allCoursesError;
+      setAllCourses(allCoursesData || []);
 
       // Load enrollments with student details
       const { data: enrollmentsData, error: enrollmentsError } = await supabase
@@ -97,9 +115,13 @@ export default function TutorCoursePage() {
     loadCourseData(); // Refresh the data
   };
 
+  const handleSessionSuccess = () => {
+    setShowAddSession(false);
+    loadCourseData(); // Refresh the data to show new session
+  };
+
   const createNewSession = () => {
-    // Navigate to session creation page
-    navigate(`/tutor/sessions/new?courseId=${courseId}`);
+    setShowAddSession(true);
   };
 
   if (loading) {
@@ -245,7 +267,7 @@ export default function TutorCoursePage() {
                       </thead>
                       <tbody className="divide-y divide-slate-700/50">
                         {enrollments.map((enrollment) => (
-                          <tr key={enrollment.enrollment_id} className="hover:bg-slate-800/30">
+                          <tr key={enrollment.id} className="hover:bg-slate-800/30">
                             <td className="px-6 py-4 whitespace-nowrap">
                               <div className="text-sm font-medium text-white">
                                 {enrollment.student?.full_name || 'Unknown'}
@@ -334,6 +356,14 @@ export default function TutorCoursePage() {
           </Section>
         </RoleGate>
       </main>
+
+      <SessionCreationModal
+        isOpen={showAddSession}
+        onClose={() => setShowAddSession(false)}
+        onSuccess={handleSessionSuccess}
+        courses={allCourses}
+        preselectedCourseId={courseId}
+      />
     </div>
   );
 }

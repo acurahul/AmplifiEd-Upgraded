@@ -9,16 +9,28 @@ import Header from '@/components/Header';
 import RoleGate from '@/components/RoleGate';
 import Section from '@/components/Section';
 import EnrollmentManager from '@/components/EnrollmentManager';
+import SessionCreationModal from '@/components/SessionCreationModal';
 
 export default function TutorCoursePage() {
   const router = useRouter(); // <-- Use Next.js router
   const params = useParams(); // <-- Use Next.js params
   const [showEnrollmentForm, setShowEnrollmentForm] = useState(false);
+  const [showAddSession, setShowAddSession] = useState(false);
 
   if (!params) {
     return <div>Loading...</div>;
   }
-  const courseId = params.courseId;
+  const courseId = Array.isArray(params.courseId) ? params.courseId[0] : params.courseId;
+
+  // Mock courses data for the modal
+  const courses = [
+    { course_id: courseId, title: "Class 10 Chemistry (Full Year)", description: "CBSE Grade 10 Chemistry with weekly live classes and study materials" }
+  ];
+
+  const handleSessionSuccess = () => {
+    setShowAddSession(false);
+    console.log('Session created successfully!');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -49,7 +61,7 @@ export default function TutorCoursePage() {
               </button>
               
               <button
-                onClick={() => router.push('/tutor/home')}
+                onClick={() => setShowAddSession(true)}
                 className="bg-slate-800 border border-slate-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-slate-700 hover:border-slate-600 transition-all duration-300 flex items-center"
               >
                 <Plus size={20} className="mr-2" />
@@ -143,6 +155,14 @@ export default function TutorCoursePage() {
           </Section>
         </RoleGate>
       </main>
+
+      <SessionCreationModal
+        isOpen={showAddSession}
+        onClose={() => setShowAddSession(false)}
+        onSuccess={handleSessionSuccess}
+        courses={courses}
+        preselectedCourseId={courseId}
+      />
     </div>
   );
 }

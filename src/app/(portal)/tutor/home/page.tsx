@@ -11,6 +11,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import RoleGate from '@/components/RoleGate';
 import Section from '@/components/Section';
+import SessionCreationModal from '@/components/SessionCreationModal';
 
 interface Course {
   course_id: string; // This will be the real UUID
@@ -24,12 +25,6 @@ export default function TutorHomePage() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddSession, setShowAddSession] = useState(false);
-  const [sessionForm, setSessionForm] = useState({
-    title: '',
-    description: '',
-    video_source_url: '',
-    date: ''
-  });
 
   // --- LIVE DATA FETCH ---
   useEffect(() => {
@@ -56,59 +51,10 @@ export default function TutorHomePage() {
     }
   }, [user]);
 
-  // --- CORRECTED SUBMISSION LOGIC ---
-  const handleAddSession = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (courses.length === 0) {
-      alert("Error: No courses found. You must have at least one course to add a session to.");
-      return;
-    }
-    
-    // Use the REAL uuid from the fetched course
-    const courseId = courses[0].course_id; 
-
-    try {
-      // Step 1: Create the 'sessions' record
-      const { data: newSession, error: sessionError } = await supabase
-        .from('sessions')
-        .insert({
-          course_id: courseId, // Use the valid UUID
-          title: sessionForm.title,
-          description: sessionForm.description,
-          session_date: sessionForm.date || new Date(),
-          video_source_url: sessionForm.video_source_url,
-          status: 'draft'
-        })
-        .select('id')
-        .single();
-
-      if (sessionError) throw sessionError;
-      if (!newSession || !newSession.id) throw new Error("Failed to create session record.");
-      
-      // Step 2: Create the 'processing_jobs' record
-      const newSessionId = newSession.id;
-
-      const { error: jobError } = await supabase
-        .from('processing_jobs')
-        .insert({
-          job: 'transcription',
-          status: 'queued',
-          session_id: newSessionId,
-          video_source_url: sessionForm.video_source_url,
-          payload: { video_source_url: sessionForm.video_source_url }
-        });
-
-      if (jobError) throw jobError;
-
-      alert('Success! Session created and transcription job has been queued.');
-      setShowAddSession(false);
-      setSessionForm({ title: '', description: '', video_source_url: '', date: '' });
-
-    } catch (error) {
-      console.error('Error queuing transcription job:', error);
-      alert(`Failed to queue job: ${(error as Error).message}`);
-    }
+  // --- HANDLERS ---
+  const handleSessionSuccess = () => {
+    // Optionally refresh courses or show success message
+    console.log('Session created successfully!');
   };
 
   if (loading && courses.length === 0) {
@@ -155,35 +101,12 @@ export default function TutorHomePage() {
           </Section>
         </RoleGate>
       </main>
-      {showAddSession && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-slate-900 border border-slate-700 rounded-2xl p-6 w-full max-w-md mx-4">
-              <h3 className="text-xl font-semibold text-white mb-4">Add Session by Link</h3>
-              <form onSubmit={handleAddSession} className="space-y-4">
-                  <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Session Title</label>
-                      <input type="text" value={sessionForm.title} onChange={(e) => setSessionForm({...sessionForm, title: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" required />
-                  </div>
-                  <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Description (Optional)</label>
-                      <textarea value={sessionForm.description} onChange={(e) => setSessionForm({...sessionForm, description: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" rows={3} placeholder="Brief description of the session content..." />
-                  </div>
-                  <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Video Source URL</label>
-                      <input type="url" value={sessionForm.video_source_url} onChange={(e) => setSessionForm({...sessionForm, video_source_url: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" required placeholder="e.g., Google Drive or Dropbox link" />
-                  </div>
-                  <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Session Date</label>
-                      <input type="datetime-local" value={sessionForm.date} onChange={(e) => setSessionForm({...sessionForm, date: e.target.value})} className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-violet-500" />
-                  </div>
-                  <div className="flex space-x-3 pt-4">
-                      <button type="button" onClick={() => setShowAddSession(false)} className="flex-1 px-4 py-2 bg-slate-800 border border-slate-700 text-white rounded-lg hover:bg-slate-700 transition-colors">Cancel</button>
-                      <button type="submit" className="flex-1 px-4 py-2 bg-gradient-to-r from-violet-500 to-purple-600 text-white rounded-lg hover:from-violet-600 hover:to-purple-700 transition-all duration-300">Add Session</button>
-                  </div>
-              </form>
-            </div>
-        </div>
-      )}
+      <SessionCreationModal
+        isOpen={showAddSession}
+        onClose={() => setShowAddSession(false)}
+        onSuccess={handleSessionSuccess}
+        courses={courses}
+      />
     </div>
   );
 }

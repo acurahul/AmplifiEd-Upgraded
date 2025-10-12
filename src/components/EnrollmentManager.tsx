@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { UserPlus, Users, Search, Plus, CheckCircle, AlertCircle, Mail } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { EmailService } from '../services/emailService';
 
 interface EnrollmentManagerProps {
   courseId: string;
@@ -35,7 +34,7 @@ export default function EnrollmentManager({ courseId, courseTitle = "Course", tu
     email: '',
     full_name: '',
     grade: '',
-    sendWelcomeEmail: true
+    sendInvitationEmail: true
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -147,7 +146,7 @@ export default function EnrollmentManager({ courseId, courseTitle = "Course", tu
         // Step 2: Create new user via Supabase Auth (passwordless invitation flow)
         const { data: newUser, error: authError } = await supabase.auth.admin.createUser({
           email: newStudentForm.email,
-          email_confirm: true, // Skip email confirmation for now
+          email_confirm: !newStudentForm.sendInvitationEmail, // If sending invitation, don't auto-confirm
           user_metadata: {
             full_name: newStudentForm.full_name,
             role: 'student', // SECURITY: Force student role only
@@ -182,6 +181,24 @@ export default function EnrollmentManager({ courseId, courseTitle = "Course", tu
           console.warn('Could not update profile:', profileError);
           // Don't throw error - profile exists, just couldn't update metadata
         }
+
+        // Step 3.5: Send invitation email if requested
+        if (newStudentForm.sendInvitationEmail) {
+          const { error: inviteError } = await supabase.auth.admin.inviteUserByEmail(newStudentForm.email, {
+            data: {
+              full_name: newStudentForm.full_name,
+              course_title: courseTitle,
+              tutor_name: tutorName
+            }
+          });
+
+          if (inviteError) {
+            console.warn('Failed to send invitation email:', inviteError);
+            // Don't throw error - user was created successfully
+          } else {
+            console.log('✅ Invitation email sent to:', newStudentForm.email);
+          }
+        }
       }
 
       // Step 4: Create enrollment record
@@ -201,21 +218,6 @@ export default function EnrollmentManager({ courseId, courseTitle = "Course", tu
       // Step 5: Initialize topic mastery
       await initializeTopicMastery([studentId]);
 
-      // Step 6: Send welcome email if requested
-      if (newStudentForm.sendWelcomeEmail) {
-        const emailResult = await EmailService.sendWelcomeEmail(newStudentForm.email, {
-          studentName: newStudentForm.full_name,
-          courseTitle: courseTitle,
-          tutorName: tutorName,
-          platformUrl: window.location.origin,
-          loginUrl: `${window.location.origin}/login`
-        });
-
-        if (!emailResult.success) {
-          console.warn('Email sending failed:', emailResult.error);
-          // Don't throw error - enrollment succeeded, email is secondary
-        }
-      }
 
       console.log(`✅ Successfully enrolled new student: ${newStudentForm.full_name}`);
       onEnrollmentSuccess?.();
@@ -484,17 +486,17 @@ export default function EnrollmentManager({ courseId, courseTitle = "Course", tu
             <label className="flex items-center space-x-3 cursor-pointer">
               <input
                 type="checkbox"
-                checked={newStudentForm.sendWelcomeEmail}
-                onChange={(e) => setNewStudentForm({...newStudentForm, sendWelcomeEmail: e.target.checked})}
+                checked={newStudentForm.sendInvitationEmail}
+                onChange={(e) => setNewStudentForm({...newStudentForm, sendInvitationEmail: e.target.checked})}
                 className="rounded border-slate-600 text-violet-600 focus:ring-violet-500"
               />
               <div className="flex items-center space-x-2">
                 <Mail className="text-blue-400" size={16} />
-                <span className="text-sm font-medium text-white">Send welcome email</span>
+                <span className="text-sm font-medium text-white">Send invitation email</span>
               </div>
             </label>
             <p className="text-xs text-gray-400 mt-1 ml-7">
-              Student will receive an email with course details and login instructions
+              Student will receive a Supabase invitation email with login link and course details
             </p>
           </div>
 
