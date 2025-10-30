@@ -22,7 +22,7 @@ import TutorSessionPage from './pages/TutorSessionPage';
 import StudentHomePage from './pages/StudentHomePage';
 import StudentCoursePage from './pages/StudentCoursePage';
 import StudentChatPage from './pages/StudentChatPage';
-import AdminRAGPage from './pages/AdminRAGPage';
+import AdminRAGPage from './pages/migrated/AdminRAGPage';
 import TutorQuestionBankPage from './pages/TutorQuestionBankPage';
 import TutorQuizBuilderPage from './pages/TutorQuizBuilderPage';
 import TutorPerformancePage from './pages/TutorPerformancePage';

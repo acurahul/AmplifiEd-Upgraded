@@ -1,6 +1,4 @@
 'use client';
-
-import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Play, Square, RotateCcw, Database } from 'lucide-react';
@@ -21,6 +19,7 @@ interface ProcessingJob {
   finished_at?: string;
   assigned_to?: string;
   last_event: string;
+  synthetic?: boolean;
 }
 
 interface JobEvent {
@@ -49,55 +48,102 @@ export default function AdminQueuePage() {
     }
   }, [selectedJob]);
 
+  const waitForMsw = async () => {
+    // Wait up to 1s for MSW to be ready in dev to avoid race on first request
+    const deadline = Date.now() + 1000;
+    while (typeof window !== 'undefined' && !(window as any).mswReady && Date.now() < deadline) {
+      await new Promise(r => setTimeout(r, 50));
+    }
+  };
+
   const fetchJobs = async () => {
     try {
-   const { data, error } = await supabase
-     .from('processing_jobs')
-     .select('*')
-     .order('queued_at', { ascending: false }); // Show newest jobs first
-
-   if (error) throw error;
-   
-   // Map the data to match the component's expected structure
-   const formattedData = data.map(job => ({
-       ...job,
-       job_id: job.id,
-       type: job.job,
-       last_event: 'N/A' // This is a placeholder as it's not in the jobs table
-   }));
-
-   setJobs(formattedData);
-   if (formattedData.length > 0 && !selectedJob) {
-     setSelectedJob(formattedData[0]);
-   }
- } catch (error) {
-   console.error('Failed to fetch jobs:', error);
- } finally {
-   setLoading(false);
- }
+      await waitForMsw();
+      let res = await fetch('/api/admin/jobs');
+      if (!res.ok) {
+        // quick retry once to avoid transient SW attach race
+        await new Promise(r => setTimeout(r, 150));
+        res = await fetch('/api/admin/jobs');
+      }
+      if (res.ok) {
+        const jobsData = await res.json() as any[];
+        setJobs(jobsData);
+        if (jobsData.length > 0 && !selectedJob) {
+          setSelectedJob(jobsData[0]);
+        }
+        return;
+      }
+    } catch (error) {
+      // Fallback: provide synthetic data in case mocks are not initialized
+      const now = new Date();
+      const iso = (d: Date) => d.toISOString();
+      const minutesAgo = (m: number) => new Date(now.getTime() - m * 60 * 1000);
+      const syntheticJobs = [
+        {
+          job_id: 'job-queued-01',
+          type: 'transcription',
+          session_id: 'ses-chem-003',
+          status: 'queued',
+          queued_at: iso(minutesAgo(5)),
+          started_at: null,
+          finished_at: null,
+          assigned_to: null,
+          last_event: 'Queued by tutor upload',
+          synthetic: true
+        },
+        {
+          job_id: 'job-processing-01',
+          type: 'summarization',
+          session_id: 'ses-chem-004',
+          status: 'processing',
+          queued_at: iso(minutesAgo(20)),
+          started_at: iso(minutesAgo(18)),
+          finished_at: null,
+          assigned_to: 'RTX3060-01',
+          last_event: 'Generating summary chunks…',
+          synthetic: true
+        },
+        {
+          job_id: 'job-completed-01',
+          type: 'transcription',
+          session_id: 'ses-chem-005',
+          status: 'completed',
+          queued_at: iso(minutesAgo(60)),
+          started_at: iso(minutesAgo(58)),
+          finished_at: iso(minutesAgo(40)),
+          assigned_to: 'RTX3060-02',
+          last_event: 'Completed successfully',
+          synthetic: true
+        },
+        {
+          job_id: 'job-failed-01',
+          type: 'summarization',
+          session_id: 'ses-chem-006',
+          status: 'failed',
+          queued_at: iso(minutesAgo(90)),
+          started_at: iso(minutesAgo(88)),
+          finished_at: iso(minutesAgo(85)),
+          assigned_to: 'RTX3060-02',
+          last_event: 'Error: model timeout; retry available',
+          synthetic: true
+        }
+      ];
+      setJobs(syntheticJobs);
+      if (!selectedJob) setSelectedJob(syntheticJobs[0]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchJobEvents = async (jobId: string) => {
     try {
-   const { data, error } = await supabase
-     .from('job_events')
-     .select('*')
-     .eq('job_id', jobId)
-     .order('created_at', { ascending: true }); // Show events in order
-
-   if (error) throw error;
-   
-   // The component expects 'event_id' and 'event_type'. Let's ensure the mapping.
-   const formattedEvents = data.map(event => ({
-       ...event,
-       event_id: event.id,
-       event_type: event.status // Assuming 'status' in job_events maps to 'event_type'
-   }));
-
-   setJobEvents(formattedEvents || []);
- } catch (error) {
-   console.error('Failed to fetch job events:', error);
- }
+      const res = await fetch(`/api/admin/jobs/${jobId}/events`);
+      if (!res.ok) throw new Error('Failed to load job events');
+      const events = await res.json();
+      setJobEvents(events || []);
+    } catch (error) {
+      console.error('Failed to fetch job events:', error);
+    }
   };
 
   const handleRetry = async (jobId: string) => {
@@ -122,6 +168,7 @@ export default function AdminQueuePage() {
     switch (status) {
       case 'completed': return 'bg-green-500/10 text-green-400 border-green-500/20';
       case 'running': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+      case 'processing': return 'bg-blue-500/10 text-blue-400 border-blue-500/20';
       case 'queued': return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20';
       case 'failed': return 'bg-red-500/10 text-red-400 border-red-500/20';
       case 'canceled': return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
@@ -135,6 +182,14 @@ export default function AdminQueuePage() {
   }, {} as Record<string, number>);
 
   const columns = [
+    {
+      key: 'job_id' as keyof ProcessingJob,
+      label: 'Job ID',
+      sortable: true,
+      render: (value: string, row: ProcessingJob) => (
+        <span className="text-white text-sm">{row.synthetic ? `${value} *` : value}</span>
+      )
+    },
     {
       key: 'type' as keyof ProcessingJob,
       label: 'Job Type',
@@ -225,7 +280,7 @@ export default function AdminQueuePage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <RoleGate allowedRoles={['admin']}>
           <Section 
             title="Processing Queue" 
@@ -267,8 +322,8 @@ export default function AdminQueuePage() {
             </div>
 
             {/* Jobs Table */}
-            <div className="grid lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
+            <div className="grid lg:grid-cols-4 gap-8">
+              <div className="lg:col-span-3">
                 <DataTable data={jobs} columns={columns} />
               </div>
 

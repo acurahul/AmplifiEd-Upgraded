@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<storyContext xmlns="https://amplified.example/bmad/story-context" version="1.0">
+  <meta>
+    <storyKey>US-A1</storyKey>
+    <title>Jobs and Events; Retry/Cancel</title>
+    <epic>Admin/Dev Ops</epic>
+    <priority>Medium (MVP Phase 3)</priority>
+  <status>Approved</status>
+    <estimate>3-5 points</estimate>
+    <date>2025-10-30</date>
+    <author>Rahul</author>
+    <source>docs/stories/US-A1.md</source>
+  </meta>
+
+  <story>
+    <asA>admin</asA>
+    <iWant>view jobs and events and retry/cancel jobs</iWant>
+    <soThat>I can keep processing healthy during demos and development</soThat>
+    <description>Admin views jobs and events; can retry or cancel jobs (mocked in dev).</description>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>Buttons update job status in mocks; events log visible.</criterion>
+    <criterion>When MSW is active, responses include synthetic: true and UI shows * next to synthetic job IDs/status.</criterion>
+  </acceptanceCriteria>
+
+  <ux>
+    <route role="admin">/admin/queue</route>
+    <component>Jobs table with actions; events panel/log</component>
+  </ux>
+
+  <dataModel>
+    <tables>
+      <table>processing_jobs</table>
+      <table>job_events</table>
+    </tables>
+  </dataModel>
+
+  <api>
+    <endpoint method="GET" path="/admin/jobs">list jobs</endpoint>
+    <endpoint method="POST" path="/admin/jobs/:id/retry">retry job</endpoint>
+    <endpoint method="POST" path="/admin/jobs/:id/cancel">cancel job</endpoint>
+  </api>
+
+  <dependencies>
+    <dependency>MSW mocks for dev; seeded jobs/events with synthetic marker *</dependency>
+  </dependencies>
+
+  <devNotes>
+    <architecture>
+      <note>Observability emphasized; actions are idempotent in mocks</note>
+      <note>Display synthetic marker when MSW data present</note>
+    </architecture>
+    <projectStructure>
+      <note>Admin route under /admin/queue; hooks/services for data</note>
+    </projectStructure>
+    <references>
+      <ref>docs/prd.md §4.6 Admin/Dev Ops</ref>
+      <ref>docs/prd.md §11 API Requirements → Ingestion &amp; Jobs</ref>
+    </references>
+  </devNotes>
+
+  <testCases>
+    <case>Retry/Cancel changes job status; events log updates</case>
+    <case>UI shows * on job IDs/status when synthetic: true present</case>
+  </testCases>
+
+  <implementationPlan>
+    <task>Implement jobs list UI and events log</task>
+    <task>Wire retry/cancel actions to mock API (MSW)</task>
+    <task>Add UI indication for synthetic data when MSW active</task>
+    <task>Add tests: status changes and events log updates</task>
+  </implementationPlan>
+</storyContext>
+
+

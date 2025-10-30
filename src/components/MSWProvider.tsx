@@ -18,15 +18,16 @@ export function MSWProvider({ children }: { children: React.ReactNode }) {
         const { worker } = await import('@/../mocks/browser');
         await worker.start();
         setMswReady(true);
+        // Mark MSW as ready only after it has actually started
+        (window as any).mswReady = true;
       }
     }
 
     // If MSW is already running or we are in production, we're ready.
-    if (window.mswReady || !isDevelopment) {
+    if ((window as any).mswReady || !isDevelopment) {
       setMswReady(true);
     } else {
       initMsw();
-      window.mswReady = true; // Set a flag so we don't re-initialize
     }
   }, []);
 

@@ -40,12 +40,43 @@ export default function SessionCreationModal({
     }
   }, [preselectedCourseId]);
 
+  const isAllowedVideoUrl = (value: string) => {
+    try {
+      const url = new URL(value);
+      const host = url.hostname.toLowerCase();
+      const allowedHosts = [
+        'drive.google.com',
+        'docs.google.com',
+        'dropbox.com',
+        'www.dropbox.com',
+        'dl.dropboxusercontent.com',
+        'youtube.com',
+        'www.youtube.com',
+        'youtu.be'
+      ];
+      return ['http:', 'https:'].includes(url.protocol) && allowedHosts.some(h => host.endsWith(h));
+    } catch {
+      return false;
+    }
+  };
+
+  const isPastOrToday = (value: string) => {
+    if (!value) return true;
+    const input = new Date(value);
+    const now = new Date();
+    return input.getTime() <= now.getTime();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
+      // Basic field validations
+      if (!sessionForm.title.trim()) {
+        throw new Error('Title cannot be empty');
+      }
       // Validate course selection
       if (!sessionForm.courseId) {
         throw new Error('Please select a course');
@@ -55,6 +86,16 @@ export default function SessionCreationModal({
       const selectedCourse = courses.find(c => c.course_id === sessionForm.courseId);
       if (!selectedCourse) {
         throw new Error('Selected course not found');
+      }
+
+      // Validate URL
+      if (!isAllowedVideoUrl(sessionForm.video_source_url)) {
+        throw new Error('Please enter a valid Google Drive, Dropbox, or YouTube URL');
+      }
+
+      // Validate date (if provided) is not in the future
+      if (!isPastOrToday(sessionForm.date)) {
+        throw new Error('Session date cannot be in the future');
       }
 
       // Step 1: Create the session record

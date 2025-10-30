@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<storyContext xmlns="https://amplified.example/bmad/story-context" version="1.0">
+  <meta>
+    <storyKey>US-A2</storyKey>
+    <title>RAG Health Dashboard</title>
+    <epic>Admin/Dev Ops</epic>
+    <priority>Medium (MVP Phase 3)</priority>
+    <status>Approved</status>
+    <estimate>3-5 points</estimate>
+    <date>2025-10-30</date>
+    <author>Rahul</author>
+    <source>docs/stories/US-A2.md</source>
+  </meta>
+
+  <story>
+    <asA>admin</asA>
+    <iWant>see retrieval health metrics and a sample retrieval demo</iWant>
+    <soThat>I can validate RAG readiness</soThat>
+    <description>Admin sees retrieval health and a sample retrieval demo to verify system readiness.</description>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>Show count of chunks and last embed time.</criterion>
+    <criterion>Provide a sample retrieval demo with visible results.</criterion>
+    <criterion>When MSW is active, responses include synthetic: true and the UI shows * next to KPI values or section headers.</criterion>
+  </acceptanceCriteria>
+
+  <ux>
+    <route role="admin">/admin/rag</route>
+    <component>RAG dashboard with KPIs and sample retrieval panel</component>
+  </ux>
+
+  <dataModel>
+    <tables>
+      <table>transcript_chunks</table>
+      <table>doc_chunks</table>
+    </tables>
+  </dataModel>
+
+  <api>
+    <endpoint method="GET" path="/rag/health">returns KPIs and sample retrieval (mock acceptable)</endpoint>
+  </api>
+
+  <dependencies>
+    <dependency>Requires ingestion/embedding pipeline (mock acceptable for MVP)</dependency>
+    <dependency>MSW synthetic data: seeded KPIs/sample retrieval; show * marker in UI when synthetic</dependency>
+  </dependencies>
+
+  <devNotes>
+    <architecture>
+      <note>Keep health checks lightweight; mock data permissible for MVP.</note>
+      <note>Display synthetic indicator when MSW is active.</note>
+    </architecture>
+    <projectStructure>
+      <note>Place admin route under /admin/rag; create service for health metrics.</note>
+    </projectStructure>
+    <references>
+      <ref>docs/prd.md §4.6 Admin/Dev Ops</ref>
+      <ref>docs/prd.md §11 API Requirements → RAG Health</ref>
+    </references>
+  </devNotes>
+
+  <testCases>
+    <case>Health metrics (chunks count, last embed time) render correctly.</case>
+    <case>Sample retrieval returns and displays results.</case>
+    <case>UI shows * marker when responses include synthetic: true.</case>
+  </testCases>
+
+  <implementationPlan>
+    <task>Implement GET /rag/health endpoint (mock acceptable) exposing KPIs and sample retrieval.</task>
+    <task>Build RAG dashboard UI with KPIs and sample retrieval panel under /admin/rag.</task>
+    <task>Wire MSW to include synthetic: true and render * markers in UI when synthetic.</task>
+    <task>Add tests for KPI rendering, sample retrieval, and synthetic indicator behavior.</task>
+  </implementationPlan>
+</storyContext>
+
+

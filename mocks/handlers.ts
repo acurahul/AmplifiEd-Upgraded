@@ -163,6 +163,16 @@ export const handlers = [
     return HttpResponse.json(files);
   }),
 
+  // Parent performance endpoint (mock)
+  http.get('/api/parent/students/:studentId/performance', ({ params }) => {
+    const studentId = params.studentId as string
+    const topics = [
+      { topic_id: 't1', topic_name: 'Stoichiometry', attempts: 8, correct: 6, last_attempt: '2025-09-20T10:00:00Z', accuracy_percent: 75 },
+      { topic_id: 't2', topic_name: 'Thermodynamics', attempts: 5, correct: 3, last_attempt: '2025-09-18T12:30:00Z', accuracy_percent: 60 },
+    ]
+    return HttpResponse.json({ student_id: studentId, topics })
+  }),
+
   // Quiz endpoints
   http.get('/api/quizzes', ({ request }) => {
     const url = new URL(request.url);
@@ -236,8 +246,8 @@ export const handlers = [
 
   // Admin endpoints
   http.get('/api/admin/jobs', () => {
-    // Convert processing jobs to expected format
-    const jobs = processingJobs.map(job => ({
+    // Convert existing fixture jobs to expected format
+    const fixtureJobs = processingJobs.map(job => ({
       job_id: job.id,
       type: job.job,
       session_id: job.session_id,
@@ -246,22 +256,82 @@ export const handlers = [
       started_at: job.started_at,
       finished_at: job.finished_at,
       assigned_to: job.assigned_to,
-      last_event: jobEvents.find(e => e.job_id === job.id)?.message || 'No events'
+      last_event: jobEvents.find(e => e.job_id === job.id)?.message || 'No events',
+      synthetic: true
     }));
-    
-    return HttpResponse.json(jobs);
+
+    // Provide a realistic mixed-status list to ensure UI has data in dev
+    const now = new Date();
+    const iso = (d: Date) => d.toISOString();
+    const minutesAgo = (m: number) => new Date(now.getTime() - m * 60 * 1000);
+
+    const syntheticJobs = [
+      {
+        job_id: 'job-queued-01',
+        type: 'transcription',
+        session_id: 'ses-chem-003',
+        status: 'queued',
+        queued_at: iso(minutesAgo(5)),
+        started_at: null,
+        finished_at: null,
+        assigned_to: null,
+        last_event: 'Queued by tutor upload',
+        synthetic: true
+      },
+      {
+        job_id: 'job-processing-01',
+        type: 'summarization',
+        session_id: 'ses-chem-004',
+        status: 'processing',
+        queued_at: iso(minutesAgo(20)),
+        started_at: iso(minutesAgo(18)),
+        finished_at: null,
+        assigned_to: 'RTX3060-01',
+        last_event: 'Generating summary chunks…',
+        synthetic: true
+      },
+      {
+        job_id: 'job-completed-01',
+        type: 'transcription',
+        session_id: 'ses-chem-005',
+        status: 'completed',
+        queued_at: iso(minutesAgo(60)),
+        started_at: iso(minutesAgo(58)),
+        finished_at: iso(minutesAgo(40)),
+        assigned_to: 'RTX3060-02',
+        last_event: 'Completed successfully',
+        synthetic: true
+      },
+      {
+        job_id: 'job-failed-01',
+        type: 'summarization',
+        session_id: 'ses-chem-006',
+        status: 'failed',
+        queued_at: iso(minutesAgo(90)),
+        started_at: iso(minutesAgo(88)),
+        finished_at: iso(minutesAgo(85)),
+        assigned_to: 'RTX3060-02',
+        last_event: 'Error: model timeout; retry available',
+        synthetic: true
+      }
+    ];
+
+    const jobs = [...syntheticJobs, ...fixtureJobs]
+      .sort((a, b) => new Date(b.queued_at).getTime() - new Date(a.queued_at).getTime());
+
+    return HttpResponse.json(jobs.map(j => ({ ...j, synthetic: true })));
   }),
 
   http.post('/api/admin/jobs/:id/retry', ({ params }) => {
-    return HttpResponse.json({ status: 'queued' });
+    return HttpResponse.json({ status: 'queued', synthetic: true });
   }),
 
   http.post('/api/admin/jobs/:id/cancel', ({ params }) => {
-    return HttpResponse.json({ status: 'canceled' });
+    return HttpResponse.json({ status: 'canceled', synthetic: true });
   }),
 
   http.get('/api/admin/jobs/:id/events', ({ params }) => {
-    const events = jobEvents
+    const fromFixtures = jobEvents
       .filter(e => e.job_id === params.id)
       .map(event => ({
         event_id: event.id,
@@ -270,8 +340,43 @@ export const handlers = [
         message: event.message,
         timestamp: event.created_at
       }));
-    
-    return HttpResponse.json(events);
+
+    // If no fixture events exist (e.g., for synthetic jobs), synthesize a plausible timeline
+    if (fromFixtures.length === 0) {
+      const id = String(params.id);
+      const now = new Date();
+      const iso = (d: Date) => d.toISOString();
+      const minutesAgo = (m: number) => new Date(now.getTime() - m * 60 * 1000);
+
+      let synthetic: any[] = [];
+      if (id.includes('queued')) {
+        synthetic = [
+          { event_id: `${id}-e1`, job_id: id, event_type: 'queued', message: 'Job queued', timestamp: iso(minutesAgo(5)) }
+        ];
+      } else if (id.includes('processing')) {
+        synthetic = [
+          { event_id: `${id}-e1`, job_id: id, event_type: 'queued', message: 'Job queued', timestamp: iso(minutesAgo(22)) },
+          { event_id: `${id}-e2`, job_id: id, event_type: 'running', message: 'Worker picked up job', timestamp: iso(minutesAgo(19)) },
+          { event_id: `${id}-e3`, job_id: id, event_type: 'running', message: 'Generating summary chunks…', timestamp: iso(minutesAgo(17)) }
+        ];
+      } else if (id.includes('completed')) {
+        synthetic = [
+          { event_id: `${id}-e1`, job_id: id, event_type: 'queued', message: 'Job queued', timestamp: iso(minutesAgo(62)) },
+          { event_id: `${id}-e2`, job_id: id, event_type: 'running', message: 'Transcribing audio', timestamp: iso(minutesAgo(59)) },
+          { event_id: `${id}-e3`, job_id: id, event_type: 'completed', message: 'Completed successfully', timestamp: iso(minutesAgo(40)) }
+        ];
+      } else if (id.includes('failed')) {
+        synthetic = [
+          { event_id: `${id}-e1`, job_id: id, event_type: 'queued', message: 'Job queued', timestamp: iso(minutesAgo(92)) },
+          { event_id: `${id}-e2`, job_id: id, event_type: 'running', message: 'Starting summarization', timestamp: iso(minutesAgo(89)) },
+          { event_id: `${id}-e3`, job_id: id, event_type: 'failed', message: 'Error: model timeout; retry available', timestamp: iso(minutesAgo(85)) }
+        ];
+      }
+
+      return HttpResponse.json(synthetic);
+    }
+
+    return HttpResponse.json(fromFixtures);
   }),
 
   http.get('/api/rag/health', () => {
@@ -279,7 +384,8 @@ export const handlers = [
       transcript_chunks_count: transcriptChunks.length,
       doc_chunks_count: sessionFiles.length,
       last_embed_at: '2025-07-15T18:00:00Z',
-      avg_chunk_len: transcriptChunks.reduce((sum, chunk) => sum + chunk.text.length, 0) / transcriptChunks.length
+      avg_chunk_len: transcriptChunks.reduce((sum, chunk) => sum + chunk.text.length, 0) / transcriptChunks.length,
+      synthetic: true
     });
   }),
 
@@ -315,7 +421,8 @@ export const handlers = [
     
     return HttpResponse.json({
       answer,
-      citations: relevantChunks
+      citations: relevantChunks,
+      synthetic: true
     });
   }),
 

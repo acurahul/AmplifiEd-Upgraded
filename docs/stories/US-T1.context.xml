@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<storyContext xmlns="https://amplified.example/bmad/story-context" version="1.0">
+  <meta>
+    <storyKey>US-T1</storyKey>
+    <title>Add Session via Drive Link</title>
+    <epic>Tutor Ingestion &amp; Processing</epic>
+    <priority>High (MVP Phase 1)</priority>
+    <status>Ready</status>
+    <estimate>3-5 points</estimate>
+    <date>2025-10-30</date>
+    <author>Rahul</author>
+    <source>docs/stories/US-T1.md</source>
+  </meta>
+
+  <story>
+    <asA>tutor</asA>
+    <iWant>add a session by pasting a Drive/Dropbox video URL with basic details</iWant>
+    <soThat>the session is created in draft and kicks off transcription automatically</soThat>
+    <description>Tutor adds a session using Drive/Dropbox link with title/date/subject/topic.</description>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion>POST succeeds; session visible in /tutor/courses/:id → Sessions tab with status draft.</criterion>
+  </acceptanceCriteria>
+
+  <ux>
+    <route role="tutor">/tutor/courses/:courseId (Sessions tab)</route>
+    <component>Session creation modal/component</component>
+    <uiSpec>
+      <formFields>
+        <field>title</field>
+        <field>date</field>
+        <field>subject/course</field>
+        <field>topics</field>
+        <field>video URL</field>
+      </formFields>
+      <validation>
+        <rule>title must be non-empty</rule>
+        <rule>video URL must be valid</rule>
+        <rule>date must be less than or equal to today</rule>
+      </validation>
+    </uiSpec>
+  </ux>
+
+  <dataModel>
+    <tables>
+      <table>sessions</table>
+      <table>processing_jobs</table>
+    </tables>
+    <fields>
+      <field>title</field>
+      <field>date</field>
+      <field>course_id</field>
+      <field>language</field>
+      <field>topics[]</field>
+      <field>video_url</field>
+      <field>status=draft</field>
+    </fields>
+  </dataModel>
+
+  <api>
+    <endpoint method="POST" path="/ingest/session">create session, enqueue transcription</endpoint>
+  </api>
+
+  <dependencies>
+    <dependency>Triggers processing_jobs: transcription</dependency>
+    <dependency>Uses Supabase Auth for tutor scope</dependency>
+  </dependencies>
+
+  <devNotes>
+    <architecture>
+      <note>Use Supabase for Auth and Postgres access per PRD</note>
+      <note>Store only derived data; video remains in Drive/Dropbox</note>
+      <note>Jobs are idempotent; failures visible and retryable</note>
+      <note>Enqueue transcription job on session create</note>
+    </architecture>
+    <projectStructure>
+      <note>Place API route under backend/service layer</note>
+      <note>UI under tutor routes’ Sessions tab</note>
+    </projectStructure>
+    <references>
+      <ref>docs/prd.md §4.1 Tutor Ingestion &amp; Processing</ref>
+      <ref>docs/prd.md §5.1 Ingestion</ref>
+      <ref>docs/prd.md §11 API Requirements → Ingestion &amp; Jobs</ref>
+    </references>
+  </devNotes>
+
+  <testCases>
+    <case>Valid URL creates session (draft) and job queued</case>
+    <case>Invalid URL shows inline error</case>
+  </testCases>
+
+  <implementationPlan>
+    <task>Create ingestion API handler and DB insert for session</task>
+    <task>Validate payload: required fields, URL format, date ≤ today</task>
+    <task>Set status=draft; enqueue processing_jobs: transcription</task>
+    <task>Add Sessions tab UI to display new draft session</task>
+    <task>Client validation in session creation modal/form</task>
+    <task>API unit tests and UI tests per acceptance criteria</task>
+  </implementationPlan>
+</storyContext>
+
+

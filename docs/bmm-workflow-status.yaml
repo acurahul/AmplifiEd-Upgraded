@@ -1,0 +1,26 @@
+generated: "2025-10-30"
+project: "AmplifiEd-Upgraded"
+project_type: "software"
+project_level: "3"
+field_type: "brownfield"
+workflow_path: "brownfield-level-3.yaml"
+
+workflow_status:
+  # Phase 1: Analysis
+  brainstorm-project: optional
+  research: recommended
+  product-brief: recommended
+
+  # Phase 2: Planning
+  prd: docs/prd.md
+  validate-prd: optional
+  create-design: conditional
+
+  # Phase 3: Solutioning
+  architecture-review: required
+  integration-planning: required
+  create-architecture: required
+  validate-architecture: optional
+  solutioning-gate-check: required
+
+
